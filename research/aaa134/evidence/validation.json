@@ -1,0 +1,141 @@
+{
+  "schema_version": "aaa.research.aaa134.validation.v1",
+  "recorded_at": "2026-09-14",
+  "environment": {
+    "python": "3.12.3",
+    "matplotlib_backend": "Agg",
+    "interpreter": "the repository's locked .venv",
+    "worktree": "an isolated git worktree at the prototype branch head"
+  },
+  "base_commit": "58e440462ce2e8fb551c5a5975bef85d4a54fef3",
+  "results": [
+    {
+      "command": "MPLBACKEND=Agg python -m unittest discover -s tests -t .",
+      "result": "442 tests, OK",
+      "elapsed_seconds": 77.642,
+      "note": "identical to the baseline measured on the unmodified base commit (442 tests, OK, 78.130 s)"
+    },
+    {
+      "command": "PYTHONPATH=$PWD python -m unittest discover -s research/aaa134/archive_prototype/tests -t .",
+      "result": "41 tests, OK",
+      "elapsed_seconds": 0.35
+    },
+    {
+      "command": "python -m ruff check .",
+      "result": "All checks passed!"
+    },
+    {
+      "command": "python -m ruff format --check .",
+      "result": "108 files already formatted"
+    },
+    {
+      "command": "python -m mypy",
+      "result": "Success: no issues found in 42 source files",
+      "note": "the repository's configured scope is files = [\"aaa\"]"
+    },
+    {
+      "command": "python -m mypy research/aaa134",
+      "result": "Success: no issues found in 12 source files",
+      "note": "run explicitly; the prototype is outside the configured mypy scope"
+    },
+    {
+      "command": "python tools/check_lock.py",
+      "result": "all 24 pinned distributions match the installed environment"
+    },
+    {
+      "command": "python -m aaa.cli spec-hash",
+      "result": "f8e1090bf5b1aeb02cb8a129fec0ec9c83ab1b50cb2c500496b862fe6a1a5e37",
+      "note": "unchanged"
+    },
+    {
+      "command": "python -m aaa.cli observation-noise-protocol-hash",
+      "result": "546e2434cc15850779107c1a329af1e2f8581cd6a1c3b31807eecf5f6e7b427c",
+      "note": "unchanged"
+    },
+    {
+      "command": "git diff --check 58e4404..HEAD",
+      "result": "clean"
+    },
+    {
+      "command": "git diff --diff-filter=MDR --name-only 58e4404..HEAD",
+      "result": "empty: no existing file was modified, deleted or renamed; 25 files added"
+    },
+    {
+      "command": "strict json.load of every added .json",
+      "result": "5 of 5 parsed"
+    },
+    {
+      "command": "credential pattern scan of the complete diff",
+      "result": "no matches"
+    },
+    {
+      "command": "setuptools find_packages(include=['aaa*'])",
+      "result": "['aaa', 'aaa.benchmark', 'aaa.noise']",
+      "note": "research/ is not packaged; pyproject.toml was not modified"
+    }
+  ],
+  "boundaries_verified": {
+    "existing_files_modified": 0,
+    "existing_files_deleted": 0,
+    "existing_evidence_rewritten": false,
+    "protocol_changed": false,
+    "freeze_manifest_changed": false,
+    "source_freeze_changed": false,
+    "batch_registry_changed": false,
+    "threshold_or_gate_changed": false,
+    "seed_or_schedule_changed": false,
+    "candidate_definition_changed": false,
+    "issue_ledger_changed": false,
+    "source_fingerprint_exclusion_added": false,
+    "confirmation_batch_reserved": false,
+    "confirmation_batch_consumed": false,
+    "confirmation_a_or_b_executed": false,
+    "remote_reservation_ref_created": false,
+    "pr11_branch_modified": false,
+    "pr12_branch_modified": false,
+    "main_modified": false
+  },
+  "not_run_and_why": [
+    "python -m aaa.cli observation-noise --role development --quick: not needed. The behavioural analysis is built from committed evidence and from a targeted diagnostic; a quick smoke would have produced no claim this branch makes.",
+    "coverage measurement: the repository's configured coverage source is [\"aaa\"], which this branch does not touch; the baseline 71% figure is unaffected.",
+    "wheel build and fresh-install smoke: this branch changes no packaged code and pyproject.toml is unmodified; find_packages confirms research/ is excluded.",
+    "any confirmation-role command: prohibited by the assignment and by the missing durable-archive prerequisite."
+  ],
+  "hosted_ci": {
+    "pull_request": 13,
+    "runs": [
+      "34925841124",
+      "34925844609"
+    ],
+    "passing_jobs": [
+      "Python 3.10",
+      "Python 3.11",
+      "Python 3.12",
+      "Python 3.13"
+    ],
+    "failing_jobs": [
+      "Locked environment",
+      "Fresh install"
+    ],
+    "failing_step": "Retain failure evidence (actions/upload-artifact, if: always())",
+    "cause": "The observation-noise development smoke writes schedule filenames containing colons, for example 'development:clean_trained:bouncing:correlated:000000:l000:e0000:r00.json'. actions/upload-artifact rejects colons for NTFS compatibility, so the upload step fails after every substantive step has already passed.",
+    "every_substantive_step_passed": [
+      "install the locked environment",
+      "verify the installed set matches the lock",
+      "lint",
+      "format check",
+      "static type check",
+      "tests with coverage",
+      "canonical specification identity",
+      "observation-noise protocol identity",
+      "observation-noise development smoke",
+      "independent recomputation",
+      "confirmation exit-code contract"
+    ],
+    "caused_by_this_branch": false,
+    "pre_existing_on_pr11": true,
+    "pr11_evidence": "PR #11's own latest checks fail identically: jobs 104234471652 and 104234465686 fail only at 'Retain failure evidence' with the same colon error. This branch adds no schedule file and modifies neither .github/workflows/ci.yml nor aaa/noise/runner.py.",
+    "not_fixed_here_because": "Fixing it would require modifying an existing file, which this assignment forbids. It is reported for a separate maintainer decision.",
+    "side_note": "This also undercuts any fallback story in which GitHub Actions artifacts serve as observation-noise evidence storage: for a noise run that upload cannot currently succeed at all."
+  }
+}

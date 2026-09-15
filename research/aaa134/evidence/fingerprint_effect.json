@@ -1,0 +1,25 @@
+{
+  "schema_version": "aaa.research.aaa134.fingerprint_effect.v1",
+  "purpose": "Record, rather than work around, the effect of adding tracked research files on this branch's scientific identity.",
+  "command": "python -m aaa.cli observation-noise-fingerprint",
+  "identity_function": "aaa/noise/scientific_identity.py::scientific_fingerprint",
+  "pr11_head_commit": "58e440462ce2e8fb551c5a5975bef85d4a54fef3",
+  "pr11_scientific_fingerprint_sha256": "28a5e55e6866f0825e86cd49b69d88ab08dd28ce7562d23d3015acb8cbb5ac19",
+  "pr11_files_covered": 111,
+  "prototype_branch": "opus/aaa134-durable-archive-prototype",
+  "prototype_scientific_fingerprint_sha256": "caf2925512bece7030ab7e7a3c47819473de70eda422fa0065ada29c0c1a8975",
+  "prototype_files_covered": 133,
+  "files_added_to_the_fingerprint": 22,
+  "fingerprints_equal": false,
+  "matches_committed_source_freeze": false,
+  "exclusion_added": false,
+  "files_moved_under_a_generated_prefix": false,
+  "freeze_manifest_regenerated": false,
+  "interpretation": [
+    "This is correct behaviour of the source-freeze discipline PR #10 established, not a defect.",
+    "PR #11's scientific identity remains 28a5e55e... on PR #11's own branch; nothing there was touched.",
+    "This prototype branch has a different identity because it contains 22 additional tracked files.",
+    "Therefore this branch is NOT eligible for a formal confirmation attempt, and must never be used for one.",
+    "No scientific-fingerprint exclusion was added for research/, and nothing was relocated under results/ or runs/ to keep an old digest stable. Choosing the convenient option is how a source fingerprint stops being worth computing."
+  ]
+}

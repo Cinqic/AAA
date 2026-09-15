@@ -1,0 +1,199 @@
+{
+  "schema_version": "aaa.research.aaa134.existing_behavior.v1",
+  "status": "READ_ONLY_ANALYSIS_NOT_CONFIRMATION",
+  "recorded_at": "2026-09-14",
+  "trees_inspected": {
+    "main": "25b6c32c9040d0f934314a2139993d12763afc99",
+    "pr11_head": "58e440462ce2e8fb551c5a5975bef85d4a54fef3",
+    "pr12_head_context_only": "697d44916ca77aaad6accfabd68e7dff7f18e2c5"
+  },
+  "evidence_classes": {
+    "H": "historical committed confirmation evidence",
+    "D": "development evidence committed on the PR #11 branch",
+    "F": "fresh non-confirmatory diagnostic run for this analysis",
+    "C": "statement about source code, cited by file and line"
+  },
+  "confirmation_boundary": {
+    "batch_reserved": false,
+    "batch_consumed": false,
+    "confirmation_a_or_b_executed": false,
+    "unobserved_confirmation_outcome_inspected": false,
+    "registry_mutated": false
+  },
+  "findings": [
+    {
+      "id": "F-01",
+      "class": "C",
+      "title": "Causal ordering is implemented as documented",
+      "source": "aaa/noise/runner.py:325-424",
+      "commit": "58e440462ce2e8fb551c5a5975bef85d4a54fef3",
+      "statement": "Per step the runner materializes the predictor-visible window, collects every forecast, advances the world, reveals the target, scores, constructs and appends the complete record, and only then calls update and appends the observation to history.",
+      "quantities": {}
+    },
+    {
+      "id": "F-02",
+      "class": "C",
+      "title": "Evaluator-only information is structurally separated",
+      "source": "aaa/noise/observation.py, aaa/noise/runner.py:325-424",
+      "commit": "58e440462ce2e8fb551c5a5975bef85d4a54fef3",
+      "statement": "predict(history) and update(history, target) receive noisy observations only. latent_position, bounced, changed, noise_innovation, noise_channel, noise_scale and trial identity are retained in the record for scoring but are never passed to a predictor.",
+      "limitation": "Structural argument from reading call sites, not an exhaustive taint analysis."
+    },
+    {
+      "id": "F-03",
+      "class": "H",
+      "title": "Bounce accuracy is programmed reflection, not learned capability",
+      "source": "results/benchmark_v2_1/aaa-v2_1-confirmation-b-0004/report.md",
+      "protocol": "aaa.benchmark.v2.1",
+      "spec_hash": "f8e1090bf5b1aeb02cb8a129fec0ec9c83ab1b50cb2c500496b862fe6a1a5e37",
+      "quantities": {
+        "bounce.decomposition_vs_persistence": {"estimate": 1.0, "interval": [1.0, 1.0], "p_value": 0.0002499},
+        "bounce.decomposition_vs_raw_constant_motion": {"estimate": 1.0, "interval": [1.0, 1.0], "p_value": 0.0002499},
+        "bounce.decomposition_vs_reflected_constant_motion": {"estimate": -1237000.0, "interval": [-1761000.0, -812800.0], "p_value": 1.0}
+      },
+      "statement": "Against arms without the public boundary map the candidate's bounce advantage is total; against the arm with the same map the comparison is decisively negative at p=1."
+    },
+    {
+      "id": "F-04",
+      "class": "H",
+      "title": "v2.1 required-gate outcomes on the retained confirmation B",
+      "source": "results/benchmark_v2_1/aaa-v2_1-confirmation-b-0004/report.md",
+      "quantities": {
+        "changed_law_adaptation": 0.7542,
+        "constant_velocity_identification_normalized_mae": 3.895e-11,
+        "frozen_prediction_accuracy": 5.467e-06,
+        "unchanged_control": -5.341e-08,
+        "always_online_stability": 6.841e-06,
+        "always_online_stability_margin": {"estimate": -1.002e-05, "interval": [-1.016e-05, -9.872e-06]}
+      }
+    },
+    {
+      "id": "F-05",
+      "class": "H",
+      "title": "The protocol has demonstrably failed a required gate",
+      "source": "README.md, CHANGELOG.md, docs/issue_ledger.md AAA-120",
+      "statement": "The first confirmation round under the repaired protocol failed always_online_stability on both independent fresh streams and both exited non-zero, with 13 of 14 gates passing in each. The candidate was repaired on development evidence; no threshold was changed; the failed attempts remain committed."
+    },
+    {
+      "id": "F-06",
+      "class": "C",
+      "title": "The observation-noise learner has an errors-in-variables structure beyond attenuation",
+      "source": "aaa/predictors.py:561-568 (features), aaa/predictors.py:617 (target)",
+      "statement": "The regressor is phi_1 = (y_t - y_{t-1})/D and the target is z = (y_{t+1} - y_t)/L, so the same observation y_t enters the regressor with +L/D and the target with -1. The regressor/target noise covariance is negative, which pushes the estimated slope past zero rather than merely shrinking it toward zero.",
+      "quantities": {
+        "interval_width_L": 1.0,
+        "dt": 0.02,
+        "displacement_scale_D": 0.004,
+        "regressor_noise_variance_per_unit_sigma_squared": 125000.0,
+        "regressor_target_covariance_per_unit_sigma_squared": -250.0,
+        "true_displacement_weight": 0.004,
+        "noise_only_asymptote": -0.002
+      }
+    },
+    {
+      "id": "F-07",
+      "class": "F",
+      "title": "Measured batch-OLS displacement weight lands on the sign-flipped noise asymptote",
+      "command": "python research/aaa134/analysis/eiv_diagnostic.py",
+      "artifact": "research/aaa134/analysis/eiv_diagnostic.json",
+      "quantities": {
+        "mean_estimated_displacement_weight_scale_0.0005": -0.0019811859649387915,
+        "mean_estimated_displacement_weight_scale_0.002": -0.0019811859649387824,
+        "mean_estimated_displacement_weight_scale_0.01": -0.0019811859649387933,
+        "closed_form_asymptote": -0.002,
+        "true_value": 0.004
+      },
+      "limitation": "The scale=0.0 rows are a rank-deficient minimum-norm lstsq artifact and carry no meaning; they are reported rather than suppressed."
+    },
+    {
+      "id": "F-08",
+      "class": "F",
+      "title": "Noise contamination leaks into the non-displacement features of the live incumbent",
+      "command": "python research/aaa134/analysis/eiv_diagnostic.py",
+      "statement": "Driving the real incumbent through a noisy sinusoidal latent path that never touches a wall, the displacement weight attenuates while the centered-position weight moves by three orders of magnitude and changes sign.",
+      "quantities": {
+        "displacement_weight": {"0.0": 0.003999999988844076, "0.0005": 0.0039376071621785875, "0.002": 0.0033570330473808386, "0.01": 0.003631944731058351},
+        "centered_position_weight": {"0.0": -0.000986879102684561, "0.0005": -0.0009950878316958484, "0.002": 0.17557706129363698, "0.01": 1.7050411388430606}
+      }
+    },
+    {
+      "id": "F-09",
+      "class": "D",
+      "title": "The frozen noise-trained state is catastrophic on constant velocity, and scale-independently so",
+      "source": "docs/evidence/observation_noise_development_selection.json",
+      "protocol": "aaa.observation_noise.v1.1",
+      "protocol_hash": "546e2434cc15850779107c1a329af1e2f8581cd6a1c3b31807eecf5f6e7b427c",
+      "quantities": {
+        "noise_trained_constant_velocity_cells": [
+          {"channel": "gaussian", "scale": 0.0005, "online_mae": 0.002545556797973862, "frozen_mae": 0.06125504117825283, "reflected_baseline_mae": 0.0008023591728508172},
+          {"channel": "uniform", "scale": 0.0005, "online_mae": 0.002658795328160643, "frozen_mae": 0.061259951836770896, "reflected_baseline_mae": 0.0009039364123658526},
+          {"channel": "gaussian", "scale": 0.002, "online_mae": 0.004960436257739663, "frozen_mae": 0.06153928195320599, "reflected_baseline_mae": 0.0036087777857554742},
+          {"channel": "uniform", "scale": 0.002, "online_mae": 0.0050305385593822464, "frozen_mae": 0.061158248226986324, "reflected_baseline_mae": 0.003794746769165103}
+        ],
+        "retention_delta_mean_online_minus_frozen": -0.02474346271392791,
+        "retention_delta_median": -0.020181134007758443,
+        "retention_delta_max": 1.949097717347803e-05,
+        "retention_cells": 16
+      },
+      "statement": "Frozen error is nearly independent of the noise scale, which is the signature of a fixed wrong coefficient rather than of sensor noise. Online updating rescues a bias that noisy training itself created."
+    },
+    {
+      "id": "F-10",
+      "class": "D",
+      "title": "Baseline competitiveness fails on development point estimates",
+      "source": "docs/evidence/observation_noise_development_selection.json",
+      "preregistered_threshold": 1e-05,
+      "estimand": "mean(latent_normalized_absolute_error[online] - 1.10 * latent_normalized_absolute_error[constant_motion_reflected])",
+      "quantities": {
+        "mean_margin": 0.000412303974065957,
+        "min_margin": -0.0019114800000000001,
+        "max_margin": 0.015378,
+        "fraction_cells_failing_direction": 0.28125,
+        "cells": 32,
+        "by_family_mean_margin": {
+          "bouncing": -0.000177514,
+          "changed_law": -0.000891535,
+          "constant_velocity": 0.000430964,
+          "speed_change": 0.0022873
+        }
+      },
+      "statement": "The learner beats the analytic reflected baseline where the world is hard and loses to it where the world is easy. This is a development point estimate, not a confirmation verdict.",
+      "limitation": "Development evidence cannot predetermine A/B; it identifies the claim most at risk."
+    },
+    {
+      "id": "F-11",
+      "class": "D",
+      "title": "The three proposed refinements were numerically inert, so the null search tested nothing",
+      "source": "docs/evidence/observation_noise_development_selection.json, aaa/noise/selection.py:315-335",
+      "quantities": {
+        "max_abs_incumbent_minus_candidate_over_all_cells": 3.2526065174565133e-19,
+        "incumbent_gain_mean_all_refinements": 0.0,
+        "eligible_refinements": [],
+        "selected_candidate": "incumbent-no-refinement-v1"
+      },
+      "statement": "The causal-innovation-clip candidates at 0.25, 0.50 and 1.00 are numerically indistinguishable from the incumbent: the clip never bound at any tested noise scale. No refinement satisfied the preregistered constraints, so the unchanged incumbent was retained as an explicit no-refinement control.",
+      "must_not_be_read_as": "Evidence that the incumbent is robust to observation noise. The search consisted of one mechanism family that turned out to be inactive on the development grid."
+    },
+    {
+      "id": "F-12",
+      "class": "C",
+      "title": "Noise-shift and law-change are separated only by predeclared controls",
+      "source": "aaa/noise/data/observation_noise_v1.json (schedules.sensor_shifts, hypotheses.h0, hypotheses.h2)",
+      "statement": "Sensor shifts 0.0005<->0.002 at aligned step 300 and staggered step 340 are crossed with unchanged and changed dynamics. h2 forbids treating detector activity as evidence of a successful law-change response. h0 anticipates that observation noise alone can trigger the incumbent's self-triggered forgetting with no law change.",
+      "implication": "A scalar residual detector cannot in principle separate a sensor-scale change from a law change; this is the uncertainty the observation-noise phase is least equipped to resolve."
+    }
+  ],
+  "claim_classes": [
+    {"id": 1, "claim": "implementation correctness", "status": "supported at v2.1", "basis": "H: correctness and reproducibility gates PASS in aaa-v2_1-confirmation-b-0004"},
+    {"id": 2, "claim": "learning with experience", "status": "supported at v2.1", "basis": "H: learning_progress, constant_velocity_identification"},
+    {"id": 3, "claim": "generalization", "status": "narrowly supported at v2.1", "basis": "H: frozen_prediction_accuracy 5.467e-06 on the unfamiliar bouncing regime"},
+    {"id": 4, "claim": "benefit from continued updates after change", "status": "supported at v2.1; unresolved under observation noise", "basis": "H: changed_law_adaptation 0.7542; D only under noise"},
+    {"id": 5, "claim": "baseline competitiveness", "status": "supported at v2.1; at risk under observation noise", "basis": "H: always_online_stability margin -1.002e-05; D: finding F-10"}
+  ],
+  "limitations": [
+    "The causal-boundary argument is structural, not an exhaustive taint analysis.",
+    "The per-batch record-shard count of 245760 is taken from docs/evidence/observation_noise_scale_pilot.json and was not independently re-derived; linear scaling of the pilot's 256 shards gives 256434 and the two were not reconciled from the committed plan alone.",
+    "The F-class diagnostics use synthetic latent paths chosen to isolate the errors-in-variables term, not AAA's registered families.",
+    "No confirmation outcome was inspected, so nothing here predicts A/B."
+  ]
+}

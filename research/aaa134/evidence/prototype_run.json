@@ -1,0 +1,46 @@
+{
+  "backend": "aaa134-prototype-local",
+  "closes_aaa_134": false,
+  "closes_aaa_144": false,
+  "disclaimer": "The locator above addresses a directory on the machine that produced it. It is not a durable locator, it is not evidence, and it must never be recorded in an AAA attempt as one.",
+  "durable": false,
+  "fixture": "synthetic miniature attempt directory, not an AAA run",
+  "label": "PROTOTYPE_ONLY_NOT_DURABLE",
+  "objects_retrieved_into_fresh_empty_directory": 15,
+  "published": {
+    "locator": {
+      "archive_id": "prototype-archive-0001",
+      "durable": false,
+      "label": "PROTOTYPE_ONLY_NOT_DURABLE",
+      "manifest_object_key": "aaa134_archive_manifest.json",
+      "manifest_sha256": "88cacdd0c1c92033aba0f4e8cc6238584494f7035951aa73cb534b3f0dc4b54b",
+      "manifest_version_id": "88cacdd0c1c92033aba0f4e8cc6238584494f7035951aa73cb534b3f0dc4b54b",
+      "object_count": 15,
+      "root": "/tmp/tmpgav34znh/store",
+      "scheme": "aaa134-prototype-local",
+      "total_bytes": 3519
+    },
+    "object_count": 15,
+    "preflight": {
+      "capacity_known": false,
+      "largest_object_bytes": 1354,
+      "object_count": 15,
+      "supports_object_checksums": true,
+      "supports_versioning": true,
+      "total_bytes": 3519
+    },
+    "producer_checksum_cross_check": {
+      "entries": 14,
+      "status": "PASS"
+    },
+    "resumed_objects": 0,
+    "total_bytes": 3519
+  },
+  "schema_version": "aaa.research.aaa134.prototype_run.v1",
+  "verification": {
+    "bytes_verified": 3519,
+    "objects_verified": 15,
+    "problems": [],
+    "verdict": "PASS"
+  }
+}

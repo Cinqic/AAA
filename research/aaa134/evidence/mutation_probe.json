@@ -1,0 +1,34 @@
+{
+  "schema_version": "aaa.research.aaa134.mutation_probe.v1",
+  "label": "PROTOTYPE_ONLY_NOT_DURABLE",
+  "purpose": "Show that the fault-injection tests fail when the guard they target is removed, so they are not passing for an unrelated reason.",
+  "method": "Each guard was temporarily replaced with an always-false condition in a scratch copy of the tree, the fault-injection suite was rerun, and the original file was restored from a backup before the next probe. No mutated file was committed.",
+  "suite": "research/aaa134/archive_prototype/tests/test_fault_injection.py",
+  "command": "PYTHONPATH=$PWD python -m unittest research.aaa134.archive_prototype.tests.test_fault_injection",
+  "baseline": {"tests": 36, "result": "OK"},
+  "probes": [
+    {
+      "guard": "per-component symlink check in enumeration.safe_relative_path",
+      "mutation": "if current.is_symlink(): -> if False:",
+      "result": "FAILED (failures=1)",
+      "note": "Only one of the two symlink tests fails. test_symlinked_directory_is_refused still passes because a symlinked directory is independently caught by the regular-file check. Recorded rather than hidden: that test is guarded twice."
+    },
+    {
+      "guard": "producer checksum cross-check in enumeration.cross_check_against_aaa_checksums",
+      "mutation": "if missing or unexpected or mismatched: -> if False:",
+      "result": "FAILED (failures=1)"
+    },
+    {
+      "guard": "destination containment and traversal guards in publish.retrieve_archive",
+      "mutation": "both path guards -> if False:",
+      "result": "FAILED (errors=1)"
+    },
+    {
+      "guard": "write-once object guard in local_backend.LocalImmutableBackend.put_object",
+      "mutation": "if (directory / 'objects' / key).exists(): -> if False:",
+      "result": "FAILED (failures=1)"
+    }
+  ],
+  "restored_baseline": {"tests": 36, "result": "OK"},
+  "limitation": "Four guards were probed, not all thirty-four. This is a spot check on the guards most likely to be silently non-load-bearing, not exhaustive mutation coverage."
+}

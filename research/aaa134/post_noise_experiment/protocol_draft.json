@@ -1,0 +1,265 @@
+{
+  "schema_version": "aaa.post_noise_experiment.proposal.v1",
+  "status": "DESIGN_ONLY_UNFROZEN_UNEXECUTED",
+  "title": "AAA post-observation-noise phase - persistent sensor bias and drift under an unchanged physical law",
+  "proposed_at": "2026-09-14",
+  "proposed_on_branch": "opus/aaa134-durable-archive-prototype",
+  "base_commit": "58e440462ce2e8fb551c5a5975bef85d4a54fef3",
+  "execution_gate": {
+    "blocked_until": "PR #11 obtains valid observation-noise confirmation evidence and that result is interpreted",
+    "observation_noise_result": "UNRESOLVED",
+    "this_protocol_is_frozen": false,
+    "this_protocol_has_been_executed": false,
+    "batch_identities_declared": false,
+    "candidate_search_permitted": false
+  },
+  "research_question": "When the sensor acquires a persistent bias or drift and the physical law does not change, does continued online updating help or harm latent-state prediction, and can any predeclared control distinguish a sensor change from a law change?",
+  "hypotheses": {
+    "h1_primary": {
+      "statement": "Under an unchanged law with a linear sensor drift from the declared onset, the online arm's latent normalized MAE over the first 50 post-onset transitions is not lower than its matched frozen clone's.",
+      "formal": "multiplicity_adjusted_lower_bound((frozen_first50_mae - online_first50_mae) / frozen_first50_mae) <= 0.10",
+      "direction": "stated so that a benefit falsifies it"
+    },
+    "h2_positive_control": {
+      "statement": "Under a changed law with no sensor drift, the online arm beats its matched frozen clone on the same endpoint.",
+      "formal": "multiplicity_adjusted_lower_bound(relative_reduction) > 0.10",
+      "on_failure": "the entire run is NOT_VERIFIED; no H1 conclusion may be drawn"
+    },
+    "h3_discrimination": {
+      "statement": "The candidate's self-triggered forgetting rate is not distinguishable between (law changed, no drift) and (law unchanged, drift).",
+      "falsified_by": "an adjusted difference clearing the declared bound, which would be a positive and surprising result"
+    },
+    "h4_divergence": {
+      "statement": "Under drift with an unchanged law, the online arm's noisy-observation error decreases relative to frozen while its latent error does not.",
+      "mechanism_claim": "the learner adapts successfully to the wrong target"
+    }
+  },
+  "non_hypotheses": [
+    "that AAA models, represents or understands a sensor",
+    "that AAA can estimate or correct a bias",
+    "that detector activity indicates a law change, a sensor change, or correct adaptation",
+    "that any result generalizes outside the registered grid",
+    "that an H1 PASS is a defect in AAA; absorbing a drift is correct behaviour for a learner shown only observations",
+    "anything about baseline competitiveness beyond the cells measured",
+    "any claim about intelligence, understanding, autonomy or generality"
+  ],
+  "environment": {
+    "latent_unchanged": true,
+    "interval_width_L": 1.0,
+    "dt": 0.02,
+    "speed_range": [0.12, 0.32],
+    "families": {
+      "constant_velocity_400": {"simulator_family": "straight", "steps": 400, "prefix_steps": 300, "branch_steps": 100},
+      "changed_law": {"simulator_family": "dynamics_change", "steps": 400, "prefix_steps": 300, "branch_steps": 100}
+    }
+  },
+  "observation_channel": {
+    "equation": "y_t = x_t + L * (b_t + eta_t)",
+    "noise": {"channel": "gaussian", "scale": 0.002, "zero_mean": true},
+    "bias_conditions": {
+      "none": {"b_t": 0.0},
+      "step": {"b_t_before_onset": 0.0, "b_t_after_onset": 0.005, "rationale": "2.5x the noise RMS; differences away in the displacement feature"},
+      "drift": {"b_t_before_onset": 0.0, "b_t_after_onset": "0.0025 * (t - t_onset) * dt", "total_offset_over_branch": 0.005, "rationale": "adds a constant to every displacement, arithmetically indistinguishable from a velocity change"}
+    },
+    "onset_step": 300,
+    "onset_matched_to_law_change": true,
+    "b_t_is_deterministic": true,
+    "b_t_hashed_before_execution": true,
+    "one_sample_per_timestamp": true,
+    "no_clipping_or_reflection_of_sensor": true
+  },
+  "intervention_grid": {
+    "factorial": "2 laws x 3 sensor conditions",
+    "primary_cells": [
+      {"law": "unchanged", "sensor": "drift", "role": "h1_primary"},
+      {"law": "changed", "sensor": "none", "role": "h2_positive_control"},
+      {"law": "unchanged", "sensor": "none", "role": "double_control"},
+      {"law": "changed", "sensor": "drift", "role": "combined"}
+    ],
+    "secondary_cells": [
+      {"law": "unchanged", "sensor": "step"},
+      {"law": "changed", "sensor": "step"}
+    ]
+  },
+  "information_boundary": {
+    "predictor_visible": ["observed_history"],
+    "evaluator_only": [
+      "latent_position",
+      "realized_eta_t",
+      "realized_b_t",
+      "sensor_condition_label",
+      "law_change_flag",
+      "law_change_schedule",
+      "family",
+      "branch",
+      "bounce_label"
+    ],
+    "learner_is_told_an_onset_occurred": false
+  },
+  "temporal_ordering": [
+    "observe",
+    "predict",
+    "record the prediction",
+    "advance the world",
+    "reveal the target",
+    "score against latent truth",
+    "update on the noisy biased observation",
+    "append observation"
+  ],
+  "arms": {
+    "baselines": [
+      "persistence",
+      "constant_motion",
+      "constant_motion_reflected",
+      "causal_smoothing_motion",
+      "alpha_beta_filter",
+      "no_learning_control"
+    ],
+    "primary_deployable_baseline": "constant_motion_reflected",
+    "primary_baseline_rationale": "it differences the observation too, so a constant bias is invisible to it and a drift is absorbed by identical arithmetic; divergence is attributable to the learner",
+    "candidate": "incumbent-no-refinement-v1",
+    "candidate_unchanged_from_v1_1": true,
+    "matched_arms": ["selected_candidate_frozen", "selected_candidate_online"],
+    "clone_point": "t_onset",
+    "clone_is_complete_state": true,
+    "clone_state_hashed": true
+  },
+  "mechanism_budget": {
+    "maximum_evaluated_configurations": 0,
+    "maximum_substantive_mechanism_changes": 0,
+    "rationale": "This phase characterizes a failure mode. Designing a fix for a failure not yet measured is how the v1.1 refinement search became vacuous."
+  },
+  "splits": {
+    "development": {
+      "seed_namespace": "post_noise_bias_development",
+      "lineages": 2,
+      "episodes_per_condition_per_lineage": 2,
+      "sensor_realizations_per_episode": 1,
+      "tuning_budget_candidate_configurations": 0,
+      "permitted_checks": [
+        "measured pilot resource use is within the projection",
+        "the b_t generator produces the declared deterministic path, verified against a closed form outside the benchmark streams",
+        "the H2 positive control is non-degenerate: frozen and online arms are not numerically identical"
+      ],
+      "on_check_failure": "revise the design and re-freeze from scratch with fresh confirmation batch identities"
+    },
+    "confirmation": {
+      "seed_namespaces": {"a": "post_noise_bias_confirmation_a", "b": "post_noise_bias_confirmation_b"},
+      "lineages": 5,
+      "shared_training_lineages": true,
+      "episodes_per_condition_per_lineage": 12,
+      "sensor_realizations_per_episode": 2,
+      "disjoint_evaluation_streams": true,
+      "batch_identities": "NOT_YET_DECLARED",
+      "nothing_tuned_between_a_and_b": true,
+      "failed_attempt_retires_its_batch_permanently": true
+    }
+  },
+  "seed_derivation": {
+    "function": "aaa/noise/observation.py::derive_seed",
+    "form": "SeedSequence([root_seed, namespace, condition, family, lineage, episode, realization]) with stable UTF-8 label words",
+    "process_randomized_hashing": false
+  },
+  "frozen_schedules": {
+    "generated_before_execution": true,
+    "actual_values_saved": true,
+    "hashed_before_execution": true,
+    "per_trial_digests_in": "schedules/index.json",
+    "includes_b_t_path": true
+  },
+  "endpoints": {
+    "primary": {
+      "estimand": "(mean(first50_frozen_latent_normalized_mae) - mean(first50_online_latent_normalized_mae)) / mean(first50_frozen_latent_normalized_mae)",
+      "window": "first 50 transitions after t_onset, including the first surprise",
+      "normalization": "absolute error divided by interval width L",
+      "undefined_ratio_rule": "a zero or missing denominator is undefined and fails the claim; it is never replaced with zero"
+    },
+    "secondary_diagnostics": [
+      "the same relative reduction on noisy-observation error rather than latent error (the h4 divergence measurement)",
+      "signed latent error, not only magnitude",
+      "detector firing rate per condition",
+      "update-norm trajectory per condition",
+      "displacement-weight trajectory",
+      "calibration interval coverage and width, reported separately from point prediction",
+      "the step-bias column throughout",
+      "latency, peak resident memory, resets, skips, non-finite counts"
+    ],
+    "secondary_cannot_support_a_claim": true
+  },
+  "statistics": {
+    "resampling_units": ["training_lineage", "episode_within_lineage", "sensor_realization_within_episode"],
+    "independent_units_per_cell": 120,
+    "method": "paired hierarchical bootstrap with common random numbers pairing arms within a cell",
+    "draws": 4000,
+    "confidence_levels": [0.9, 0.95],
+    "primary_confidence_level": 0.95,
+    "multiplicity_family": "one Holm correction across the joint A+B primary family",
+    "primary_family_size": 16,
+    "primary_family_derivation": "4 primary cells x 2 endpoints x 2 batches",
+    "practical_margins": {"relative_reduction": 0.10, "absolute_latent_mae_line_lengths": 0.02}
+  },
+  "decision_rules": {
+    "h1_pass": "adjusted lower bound on relative reduction under (law unchanged, drift) is <= 0.10 in both A and B",
+    "h1_fail": "that bound exceeds 0.10 in both A and B; the premise of this design is wrong",
+    "h2_fail_consequence": "the entire run is NOT_VERIFIED",
+    "not_verified": "a required check did not execute",
+    "insufficient_evidence": "intervals too wide to separate the margin, or A and B disagree in direction",
+    "blocked": "no approved durable archive locator exists at execution time",
+    "outcome_vocabulary": ["PASS", "FAIL", "NOT_VERIFIED", "INSUFFICIENT_EVIDENCE", "BLOCKED"]
+  },
+  "stopping_rules": {
+    "interim_analysis_of_confirmation": false,
+    "peeking_at_a_before_b_is_planned": false,
+    "crashed_run": "retained; its batch is retired; a fresh batch is declared"
+  },
+  "promotion_rules": {
+    "any_mechanism_may_be_promoted": false,
+    "rationale": "A finding motivates a separate, separately preregistered candidate-search phase."
+  },
+  "exit_criteria": [
+    "both batches executed under one freeze",
+    "both archives independently verified byte for byte",
+    "both retrieved from a durable locator into a fresh location",
+    "joint Holm analysis produced across A+B",
+    "every primary claim assigned exactly one of the five statuses",
+    "H1, H2, H3 and H4 reported separately with no cross-implication"
+  ],
+  "resource_projection": {
+    "basis": "scaled from the measured v1.1 sharded pilot (58,944 records, 47.28 MB attempt, 155,054,080 byte peak RSS, 123.69 s)",
+    "measurement_status": "PROJECTION_NOT_MEASURED",
+    "conditions": 6,
+    "trials_per_batch": 720,
+    "scored_transitions_per_trial_approximate": 500,
+    "scored_records_per_batch_approximate": 360000,
+    "scale_factor_vs_v1_1_pilot": 6.1,
+    "compressed_archive_bytes_per_batch_approximate": 290000000,
+    "combined_a_b_with_overhead_bytes_approximate": 800000000,
+    "record_shards_per_batch_approximate": 1500,
+    "runtime_seconds_per_batch_approximate": 780,
+    "peak_resident_bytes_approximate": 160000000,
+    "bootstrap_resample_operations_approximate": 130000,
+    "comparison_to_v1_1_formal_plan": "v1.1 projects 38.5 GB per batch; this design is roughly 130x smaller",
+    "development_pilot_must_prove_resource_behaviour_before_any_confirmation_freeze": true
+  },
+  "durable_evidence_requirements": {
+    "relaxed_relative_to_v1_1": false,
+    "complete_primitive_archive": true,
+    "canonical_record_index": true,
+    "schedules_checkpoints_metadata_reports_plots": true,
+    "checksum_manifest_covers_every_retained_byte": true,
+    "failed_and_superseded_attempts_retained": true,
+    "immutable_or_version_addressed_locator_recorded_before_any_reproduction_claim": true,
+    "retrieval_into_a_fresh_location": true,
+    "independent_byte_verification_after_retrieval": true,
+    "independent_recomputation_by_the_reference_verifier": true,
+    "status_if_no_approved_locator_exists": "BLOCKED"
+  },
+  "claim_classes": {
+    "1_implementation_correctness": "the usual verifier and recompute gates; nothing new",
+    "2_learning_with_experience": "not tested here",
+    "3_generalization": "not tested here; no held-out family",
+    "4_benefit_from_continued_updates_after_change": "the target of this phase, specifically that the benefit is conditional on the change being in the world",
+    "5_baseline_competitiveness": "reported per cell; never inferred from class 4",
+    "cross_implication_permitted": false
+  }
+}

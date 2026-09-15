@@ -1,0 +1,136 @@
+{
+  "batch_least_squares": [
+    {
+      "max": 0.0010588235294117653,
+      "mean_estimated_displacement_weight": 0.0010588235294117653,
+      "min": 0.0010588235294117653,
+      "scale": 0.0,
+      "speed": 0.12
+    },
+    {
+      "max": 0.0019999999999999966,
+      "mean_estimated_displacement_weight": 0.0019999999999999966,
+      "min": 0.0019999999999999966,
+      "scale": 0.0,
+      "speed": 0.2
+    },
+    {
+      "max": 0.002876404494382051,
+      "mean_estimated_displacement_weight": 0.002876404494382051,
+      "min": 0.002876404494382051,
+      "scale": 0.0,
+      "speed": 0.32
+    },
+    {
+      "max": -0.0019446214019761207,
+      "mean_estimated_displacement_weight": -0.0019811859649387915,
+      "min": -0.0020550021749704242,
+      "scale": 0.0005,
+      "speed": 0.12
+    },
+    {
+      "max": -0.001944621401976241,
+      "mean_estimated_displacement_weight": -0.0019811859649388284,
+      "min": -0.0020550021749704463,
+      "scale": 0.0005,
+      "speed": 0.2
+    },
+    {
+      "max": -0.0019446214019762285,
+      "mean_estimated_displacement_weight": -0.001981185964938842,
+      "min": -0.0020550021749704732,
+      "scale": 0.0005,
+      "speed": 0.32
+    },
+    {
+      "max": -0.0019446214019761007,
+      "mean_estimated_displacement_weight": -0.0019811859649387824,
+      "min": -0.0020550021749704004,
+      "scale": 0.002,
+      "speed": 0.12
+    },
+    {
+      "max": -0.0019446214019761183,
+      "mean_estimated_displacement_weight": -0.001981185964938805,
+      "min": -0.0020550021749704455,
+      "scale": 0.002,
+      "speed": 0.2
+    },
+    {
+      "max": -0.0019446214019761027,
+      "mean_estimated_displacement_weight": -0.001981185964938797,
+      "min": -0.0020550021749704416,
+      "scale": 0.002,
+      "speed": 0.32
+    },
+    {
+      "max": -0.0019446214019761237,
+      "mean_estimated_displacement_weight": -0.001981185964938791,
+      "min": -0.002055002174970426,
+      "scale": 0.01,
+      "speed": 0.12
+    },
+    {
+      "max": -0.0019446214019761259,
+      "mean_estimated_displacement_weight": -0.0019811859649387933,
+      "min": -0.00205500217497043,
+      "scale": 0.01,
+      "speed": 0.2
+    },
+    {
+      "max": -0.001944621401976124,
+      "mean_estimated_displacement_weight": -0.0019811859649387933,
+      "min": -0.0020550021749704264,
+      "scale": 0.01,
+      "speed": 0.32
+    }
+  ],
+  "causal_contract": {
+    "checked_against": "aaa/noise/runner.py run_stationary_segment / run_noisy_segment",
+    "latent_truth_reaches_predictor": false,
+    "predict_signature": "predict(history) -> float",
+    "update_signature": "update(history, target_position) -> None"
+  },
+  "displacement_scale": 0.004,
+  "dt": 0.02,
+  "finite": true,
+  "interval_width": 1.0,
+  "label": "DEVELOPMENT_DIAGNOSTIC_NOT_CONFIRMATION",
+  "online_incumbent_weights": [
+    {
+      "centered_position_weight": -0.000986879102684561,
+      "displacement_weight": 0.003999999988844076,
+      "intercept_weight": -1.8548846370289788e-14,
+      "reflection_skips": 0,
+      "scale": 0.0
+    },
+    {
+      "centered_position_weight": -0.0009950878316958484,
+      "displacement_weight": 0.0039376071621785875,
+      "intercept_weight": -1.919547165888279e-06,
+      "reflection_skips": 0,
+      "scale": 0.0005
+    },
+    {
+      "centered_position_weight": 0.17557706129363698,
+      "displacement_weight": 0.0033570330473808386,
+      "intercept_weight": 0.006875053127151691,
+      "reflection_skips": 0,
+      "scale": 0.002
+    },
+    {
+      "centered_position_weight": 1.7050411388430606,
+      "displacement_weight": 0.003631944731058351,
+      "intercept_weight": 0.06208172700831609,
+      "reflection_skips": 0,
+      "scale": 0.01
+    }
+  ],
+  "schema_version": "aaa.research.aaa134.eiv_diagnostic.v1",
+  "theory": {
+    "noise_only_asymptote": -0.002,
+    "regressor_noise_variance_per_unit_sigma_squared": 125000.0,
+    "regressor_target_covariance_per_unit_sigma_squared": -250.0,
+    "true_displacement_weight": 0.004
+  }
+}
