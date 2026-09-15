@@ -49,3 +49,33 @@ updated, whether checkpoints load, whether checksums verify and whether the
 stored summary recomputes from raw evidence.
 
 A malformed, partial or interrupted run cannot earn a correctness `PASS`.
+
+## Observation-noise registry
+
+The observation-noise phase does not reuse the v2.1 registry. Its protocol
+declares `benchmarks/observation_noise_registry.json` for batch declarations and
+each attempt retains an atomic `lifecycle.jsonl` with `created`, `started`,
+`consumed`, `completed`, `cancelled`, and `failed` transitions. Schedule and
+trial identities are allocated before the first observation. Existing attempt
+directories are never overwritten; an interrupted run is a preserved failure
+until a verified resume implementation reuses its original schedule and
+checkpoint state. Confirmation additionally creates an append-only remote Git
+reservation ref before attempt creation; normal atomic ref creation permits one
+claimant across separate clones and exact-owner resume only.
+
+The candidate ledger is a separate immutable-identity registry. Its entries
+contain candidate ID, parent, mechanism, exact parameters and configuration
+hash, trainable/fixed state, training condition, mechanism count, all
+development attempt IDs, and the outcome/reason. The selected candidate for a
+confirmation run is resolved from the committed confirmation freeze and ledger
+entry; a command-line candidate override cannot substitute for it.
+
+The development plan is committed before comparative work and limits the
+search to 12 configurations and three substantive mechanism changes. The first
+quick search was development smoke and could not validly complete the frozen
+selection plan. A fresh full 2 x 2 x 1 selection under v1.1 retained and
+independently verified all four archives; no refinement was eligible, so the
+unchanged incumbent is the explicit no-refinement control. The old quick
+attempts remain historical evidence. A future pair of full
+confirmation archives is evaluated jointly so A/B do not receive separate
+multiplicity corrections.

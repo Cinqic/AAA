@@ -61,6 +61,30 @@ def verification(path: str) -> str:
 
 
 def findings(path: str) -> str:
+    noise_path = (
+        path.startswith("aaa/noise/")
+        or path.startswith("docs/evidence/observation_noise")
+        or path.startswith("docs/evidence/sol_observation_noise")
+        or "observation_noise" in path
+        or path
+        in {
+            "README.md",
+            "CHANGELOG.md",
+            "CONTRIBUTING.md",
+            ".github/workflows/ci.yml",
+            "docs/evidence_policy.md",
+            "docs/experiment_registry.md",
+            "docs/issue_ledger.md",
+            "docs/limitations.md",
+            "docs/reproduction.md",
+            "docs/self_review.md",
+            "docs/sol_review.md",
+            "docs/handoff_sol.md",
+            "tools/write_handoff.py",
+        }
+    )
+    if noise_path:
+        return "AAA-135 through AAA-149; AAA-144 remains open"
     ids: list[str] = []
     if path.startswith(("aaa/", "tests/", "tools/", "benchmarks/")):
         ids.extend(["AAA-121", "AAA-122", "AAA-123"])

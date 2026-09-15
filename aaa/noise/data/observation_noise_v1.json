@@ -1,0 +1,196 @@
+{
+  "acceptance": {
+    "absolute_utility": "Upper multiplicity-adjusted 95% bound on latent MAE is at most 0.02 line lengths in every primary cell in both A and B.",
+    "added_mechanism_promotion": "A refinement is promoted only with a preregistered practical gain over the unchanged incumbent, adjusted evidence of positive gain, and all applicable stability and retention checks passing.",
+    "baseline_competitiveness": "In every primary cell and both batches, the upper adjusted bound on MAE_online - 1.10 * MAE_primary_baseline is at most 0.00001.",
+    "evidence_integrity": "All expected artifacts, strict mandatory checks, primitive evidence, hashes, and independent arithmetic must be present and passing.",
+    "moderate_noise_adaptation": "For every primary changed-law stationary cell, the multiplicity-adjusted lower confidence bound on the relative reduction in online cumulative first-50-transition error versus its frozen clone is strictly greater than 10% in both A and B.",
+    "numerical_stability": "No registered cell may have an unhandled exception, nonfinite forecast/state, silent sample loss, or unrecorded reset.",
+    "outcome_vocabulary": ["engineering_complete", "scientifically_supported", "negative", "inconclusive", "blocked_by_missing_evidence"],
+    "reference_preservation": "The v2.1 raw and resolved identities remain unchanged and zero-noise behavioral equivalence passes within the declared tolerance.",
+    "unchanged_law_retention": "The same adjusted noninferiority rule is applied against the matched frozen learner in every primary unchanged-law cell.",
+    "machine_criteria": {
+      "absolute_utility": {
+        "estimate": "mean(latent_normalized_absolute_error[selected_candidate_online])",
+        "bound": "upper_confidence_bound",
+        "confidence_level": 0.95,
+        "adjustment": "Holm once across the joint A+B primary family",
+        "operator": "<=",
+        "threshold": 0.02
+      },
+      "baseline_competitiveness": {
+        "estimate": "mean(latent_normalized_absolute_error[selected_candidate_online] - 1.10 * latent_normalized_absolute_error[constant_motion_reflected])",
+        "bound": "upper_confidence_bound",
+        "confidence_level": 0.95,
+        "adjustment": "Holm once across the joint A+B primary family",
+        "operator": "<=",
+        "threshold": 0.00001
+      },
+      "moderate_noise_adaptation": {
+        "estimate": "(mean(first50_frozen_error) - mean(first50_online_error)) / mean(first50_frozen_error)",
+        "bound": "lower_confidence_bound",
+        "confidence_level": 0.95,
+        "adjustment": "Holm once across the joint A+B primary family",
+        "operator": ">",
+        "threshold": 0.10,
+        "required_changed_law_branch": "stationary",
+        "includes_first_surprise": true
+      },
+      "unchanged_law_retention": {
+        "estimate": "mean(latent_normalized_absolute_error[selected_candidate_online] - latent_normalized_absolute_error[selected_candidate_frozen])",
+        "bound": "upper_confidence_bound",
+        "confidence_level": 0.95,
+        "adjustment": "Holm once across the joint A+B primary family",
+        "operator": "<=",
+        "threshold": 0.00001
+      },
+      "added_mechanism_promotion": {
+        "estimate": "mean(latent_normalized_absolute_error[incumbent_square_root_rls] - latent_normalized_absolute_error[selected_candidate_online])",
+        "bound": "lower_confidence_bound",
+        "confidence_level": 0.95,
+        "adjustment": "Holm once across the joint A+B primary family",
+        "operator": ">",
+        "threshold": 0.00001,
+        "required_only_when_mechanism_change_count": ">0"
+      }
+    }
+  },
+  "artifacts": {
+    "candidate_ledger": "benchmarks/observation_noise_candidate_ledger.json",
+    "checksum_manifest": "checksums.json",
+    "durable_storage_policy": "The full archive must be copied to repository-approved durable storage and its immutable locator recorded before any independent-reproduction claim; a transient CI artifact is insufficient.",
+    "freeze_manifest": "benchmarks/observation_noise_freeze.json",
+    "full_archive_required": true,
+    "protocol": "aaa/noise/data/observation_noise_v1.json",
+    "raw_record_encoding": "newline-delimited JSON with deterministic UTF-8 encoding in deterministic per-trial gzip shards, ordered by trial_id then step through records/index.json; the concatenated uncompressed byte stream and every compressed shard are hashed",
+    "records": "records/index.json",
+    "registry": "benchmarks/observation_noise_registry.json",
+    "reports": "report.md",
+    "root": "runs/observation-noise-v1_1",
+    "schedule_dir": "schedules",
+    "source_freeze_manifest": "benchmarks/observation_noise_source_freeze.json"
+  },
+  "baselines": {
+    "alpha_beta_filter": "Causal fixed-parameter alpha-beta state estimator with settings selected only on development data; state updates are not parameter learning.",
+    "causal_smoothing_motion": "Causal moving-average smoothing followed by constant-motion extrapolation, with the same observation history and boundary policy.",
+    "constant_motion": "Raw constant-motion extrapolation from the last two predictor-visible observations.",
+    "constant_motion_reflected": "Constant-motion extrapolation plus the identical public latent-boundary reflection map.",
+    "incumbent_square_root_rls": "Unchanged v2.1 square-root RLS configuration, trained under the declared condition.",
+    "no_learning_control": "Zero-initialized incumbent architecture with updates disabled after initialization.",
+    "persistence": "The last predictor-visible observation.",
+    "primary_deployable_baseline": "constant_motion_reflected is selected before confirmation from development data; it is a fair physical-boundary comparator, while incumbent_square_root_rls is the model-development comparator."
+  },
+  "compute_storage": {
+    "estimate": "Development smoke is CPU-only and bounded; the full plan is 10 lineages x 32 episodes x 3 sensor realizations across registered cells plus matched branches. The run manifest records exact elapsed time and bytes.",
+    "lock_required": true,
+    "platform": "CPU-only, headless, repository-supported Python 3.10 through 3.13 matrix.",
+    "raw_record_encoding": "Primitive records retain latent truth, raw observation, predictor-visible history, forecasts, targets, update decisions, and diagnostics; schedules are stored separately.",
+    "retention": "Retain failed, cancelled, superseded, compact, and full archives with immutable attempt IDs; never overwrite an attempt directory."
+  },
+  "endpoints": {
+    "adaptation": "Cumulative normalized latent absolute error over the first 50 transitions after a declared physical-law intervention, including the first surprise, compared with a full-state frozen clone.",
+    "intervals": "Causal 90% and 95% observation-prediction intervals from past noisy residuals, with coverage, width, and interval score by channel, level, and regime.",
+    "primary": "Latent next-position MAE divided by line length, with paired hierarchical uncertainty and fixed balanced cell weighting.",
+    "secondary": "RMSE, signed bias, p95/p99 absolute error, noisy-observation target error, update norms, detector activity, skips, resets, memory, and latency.",
+    "stress": "Highest Gaussian level, correlated noise, impulsive noise, sensor shifts, and factorial law/noise branches are reported separately and are not promoted after observation."
+  },
+  "families": {
+    "bouncing": {"branch_steps": 0, "description": "Existing moving-dot reflection family with stationary observation noise; both walls remain visible in evaluator truth.", "prefix_steps": 0, "simulator_family": "bouncing", "steps": 120, "stratified": true},
+    "changed_law": {"branch_steps": 100, "description": "Existing damped-oscillator family with a fixed law intervention after a 300-step common prefix and a 100-step branch.", "prefix_steps": 300, "simulator_family": "dynamics_change", "steps": 400, "stratified": false},
+    "constant_velocity": {"branch_steps": 0, "description": "Existing straight-motion family evaluated over the full 32 direction-position-speed strata.", "prefix_steps": 0, "simulator_family": "straight", "steps": 40, "stratified": true},
+    "speed_change": {"branch_steps": 100, "description": "Existing constant-velocity family with an unannounced speed-magnitude change at transition 300 and a 100-step post-event branch.", "prefix_steps": 300, "simulator_family": "changed", "steps": 400, "stratified": false}
+  },
+  "hypotheses": {
+    "h0": "Observation noise degrades next-position prediction and can trigger the incumbent's surprise response without a physical-law change.",
+    "h1": "At the two lower primary levels, a fixed causal refinement can reduce latent forecast error under matched information and resources.",
+    "h2": "A noise-level shift is distinguishable from a changed physical law only through predeclared controls, not by treating detector activity as a successful law-change detection.",
+    "mechanism_policy": "No refinement is presumed effective; each substantive mechanism must be justified by a development failure mechanism, budgeted, and tested with removal ablations."
+  },
+  "noise_channels": {
+    "correlated": {"definition": "eta_0 ~ N(0,s^2); eta_t = 0.8 eta_(t-1) + 0.6 s z_t", "primary": false, "stress": true, "variance": "stationary marginal variance s^2"},
+    "gaussian": {"definition": "eta_t = s z_t with independent standard-normal z_t", "primary": true, "stress": false, "variance": "s^2"},
+    "impulsive": {"definition": "eta_t = s(z_t + 10 b_t r_t)/sqrt(2), b_t~Bernoulli(0.01), r_t in {-1,+1}", "primary": false, "stress": true, "variance": "approximately s^2 by the declared construction"},
+    "uniform": {"definition": "eta_t independently uniform on [-sqrt(3)s,+sqrt(3)s]", "primary": true, "stress": false, "variance": "s^2"}
+  },
+  "observation_model": {
+    "all_scales": [0.0, 0.0005, 0.002, 0.01],
+    "equation": "y_t = x_t + L * eta_t",
+    "idempotent_repeated_observation": true,
+    "latent_truth_field": "latent_position",
+    "no_clipping_or_reflection_of_sensor": true,
+    "one_sample_per_timestamp": true,
+    "predictor_visible_field": "observed_history",
+    "primary_channels": ["gaussian", "uniform"],
+    "primary_scales": [0.0005, 0.002],
+    "raw_observation_field": "raw_observation",
+    "stress_channels": ["correlated", "impulsive"],
+    "update_target": "newly_revealed_noisy_observation"
+  },
+  "protocol_version": "aaa.observation_noise.v1.1",
+  "reference": {
+    "v2_1_commit": "25b6c32c9040d0f934314a2139993d12763afc99",
+    "v2_1_raw_sha256": "4993c5e6e173f9dd5ef002bc84ff4c484da853b066ea45662d41ad826d10d48e",
+    "v2_1_resolved_sha256": "f8e1090bf5b1aeb02cb8a129fec0ec9c83ab1b50cb2c500496b862fe6a1a5e37",
+    "v2_1_spec_path": "aaa/benchmark/data/benchmark_v2_1.json",
+    "zero_noise_tolerance": 1e-12
+  },
+  "replication": {
+    "a_batch": {"id": "observation-noise-a-0002", "namespace": "confirmation_a", "role": "confirmation_a"},
+    "b_batch": {"id": "observation-noise-b-0002", "namespace": "confirmation_b", "role": "confirmation_b"},
+    "disjoint_evaluation_streams": true,
+    "episodes_per_family_per_lineage": 32,
+    "existing_strata": 32,
+    "independent_retraining_required_for_claim": true,
+    "lineages": 10,
+    "sensor_realizations_per_episode": 3,
+    "shared_training_lineages": true
+  },
+  "schedules": {
+    "correlated_shift_rule": "For a shifted correlated channel, generate one stationary unit-variance AR(1) innovation path and multiply each timestamp by its predeclared time-varying scale.",
+    "event_times": {"law_change": 300, "post_event_window": 50, "sensor_aligned": 300, "sensor_staggered": 340},
+    "floating_point_encoding": "IEEE-754 binary64 values serialized with deterministic JSON number encoding; actual arrays are hashed before execution.",
+    "generator": "numpy.random.Generator with PCG64 and numpy.random.SeedSequence stream derivation",
+    "pairing": "Common random numbers pair predictors within a cell; A and B use disjoint latent and sensor namespaces; branches share latent paths and sensor schedules.",
+    "sensor_shifts": [{"from": 0.0005, "to": 0.002}, {"from": 0.002, "to": 0.0005}],
+    "stationary": {"channels": ["gaussian", "uniform", "correlated", "impulsive"], "hash_before_execution": true, "save_actual_values": true, "scales": [0.0, 0.0005, 0.002, 0.01]},
+    "stream_derivation": "SeedSequence([root_seed, namespace, channel, scale_microunits, family, lineage, episode, realization]) with stable UTF-8 labels converted to uint32 words."
+  },
+  "search_budget": {
+    "baseline_search_separate": true,
+    "candidate_ledger_file": "benchmarks/observation_noise_candidate_ledger.json",
+    "development_selection_plan": "benchmarks/observation_noise_development_selection.json",
+    "confirmation_freeze": "Commit selected candidate, baselines, schedules, analysis code, full run plan, and environment identity before reading either A or B.",
+    "design_freeze": "Commit this protocol, generator, development/confirmation separation, and candidate-search budget before comparing candidate variants.",
+    "max_candidate_configurations": 12,
+    "max_substantive_mechanism_changes": 3
+  },
+  "seed_namespaces": {
+    "calibration": "observation_noise_calibration",
+    "confirmation_a": "observation_noise_confirmation_a",
+    "confirmation_b": "observation_noise_confirmation_b",
+    "development": "observation_noise_development",
+    "generator_validation": "observation_noise_generator_validation",
+    "training": "observation_noise_training"
+  },
+  "statistics": {
+    "draws": 4000,
+    "intervals": [0.9, 0.95],
+    "multiplicity_family": "Holm correction across all primary endpoint x cell x batch claims; adjusted confidence bounds are reported.",
+    "null_validation": "Known-null and false-positive simulations are separate from benchmark draws and validate finite-sample interval behavior before confirmation.",
+    "primary_metric": "latent_next_position_mae_normalized_by_line_length",
+    "resampling_units": ["training_lineage", "latent_episode", "sensor_realization"],
+    "secondary_metrics": ["rmse", "signed_bias", "p95_absolute_error", "p99_absolute_error", "noisy_observation_mae", "coverage", "interval_width", "interval_score", "latency", "memory", "update_norm", "detector_activity"],
+    "undefined_ratio_rule": "If the baseline denominator is zero or missing, report the relative ratio as undefined and do not replace it with zero or PASS."
+  },
+  "status": "design_frozen",
+  "title": "AAA observation_noise_v1.1 - controlled next-position prediction under observation noise",
+  "training": {
+    "calibration_allocation": "A fixed calibration prefix is drawn only from the declared training mixture; no clean target or evaluation-channel parameter is visible to a predictor.",
+    "calibration_policy": "Causal residual quantile calibration from past noisy residuals only; calibration adaptation is reported separately from point-predictor adaptation.",
+    "conditions": ["clean_trained", "noise_trained"],
+    "episodes_per_lineage": 24,
+    "freeze_parameters_vs_filter_state": "Frozen arms retain ordinary observation history and fixed-parameter filter state; only learned parameters and adaptive predictor state are frozen. The complete pre-intervention state is cloned and tested.",
+    "noise_mixture": {"gaussian": [0.0005, 0.002], "uniform": [0.0005, 0.002]},
+    "updates_per_episode": 40
+  }
+}

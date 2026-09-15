@@ -1,0 +1,84 @@
+{
+  "schema_version": "aaa.observation_noise_scale_pilot.v1",
+  "recorded_at": "2026-09-14",
+  "source_head": "64d70f1b2e4587c636dcd31994e93e45348fd130",
+  "command": "/usr/bin/time -v .venv/bin/python -m aaa.cli observation-noise --role development --quick --candidate-id incumbent-no-refinement-v1 --attempt-label sol-pilot-incumbent --output-root /tmp/aaa-noise-sol-pilot-20260914",
+  "measured": {
+    "exit_status": 0,
+    "elapsed_seconds": 103.34,
+    "maximum_resident_set_bytes": 2731806720,
+    "scored_records": 58944,
+    "planned_trials": 160,
+    "artifact_bytes_excluding_manifests": 786825808,
+    "records_jsonl_bytes": 369922468,
+    "records_jsonl_gz_bytes": 38475272,
+    "total_attempt_bytes_rounded": 788529152
+  },
+  "formal_plan": {
+    "lineages": 10,
+    "episodes_per_family_per_lineage": 32,
+    "sensor_realizations_per_episode": 3,
+    "planned_trials": 153600,
+    "scored_records": 59043840
+  },
+  "linear_projection_per_batch": {
+    "scale_factor_by_scored_records": 1001.693811,
+    "records_jsonl_bytes": 370549046773,
+    "records_jsonl_gz_bytes": 38540441842,
+    "current_duplicate_archive_bytes": 788158542268,
+    "elapsed_seconds": 103515
+  },
+  "available_local_disk_bytes_approximate": 69793218560,
+  "streaming_sharded_repair_pilot": {
+    "command": "/usr/bin/time -v .venv/bin/python -m aaa.cli observation-noise --role development --quick --candidate-id incumbent-no-refinement-v1 --attempt-label sol-sharded-v2-pilot-incumbent --output-root /tmp/aaa-noise-sol-sharded-v2-pilot-20260914",
+    "exit_status": 0,
+    "elapsed_seconds": 123.69,
+    "maximum_resident_set_bytes": 155054080,
+    "attempt_bytes": 47281979,
+    "record_shards": 256,
+    "scored_records": 58944,
+    "independent_verification": "PASS",
+    "independent_verification_elapsed_seconds": 24.58,
+    "timing_neutral_semantic_digest": "8afd9ecf612ab4150734f04a1655dcfdea6869ac1ceb5abcfa358662ac6e06d2",
+    "semantic_equivalence_to_pre_shard_streaming_run": true,
+    "metrics_exactly_equal": true,
+    "coverage_exactly_equal": true
+  },
+  "repaired_projection_per_batch": {
+    "compressed_record_bytes_approximate": 38540441842,
+    "record_shards": 245760,
+    "verification_elapsed_seconds_approximate": 24600,
+    "projection_only": true
+  },
+  "pre_vectorization_full_selection_probe": {
+    "command": "/usr/bin/time -v .venv/bin/python -m aaa.cli observation-noise-development-select --runs-root /tmp/aaa-noise-v1_1-full-selection-20260914 --output docs/evidence/observation_noise_development_selection.json",
+    "elapsed_seconds_before_interrupt": 680.11,
+    "maximum_resident_set_bytes": 94322688,
+    "stage_at_interrupt": "candidate one hierarchical bootstrap after primitive archive finalization",
+    "candidate_one_primitive_archive_bytes_approximate": 165675008,
+    "candidate_summary_finalized": false,
+    "disposition": "interrupted_unobserved_development_probe_retained_locally; no ledger or selection conclusion written"
+  },
+  "vectorized_bootstrap_probe": {
+    "hierarchical_cells": 1888,
+    "draws_per_cell": 4000,
+    "elapsed_seconds": 18.71,
+    "maximum_resident_set_bytes": 46780416,
+    "paired_cells": 160,
+    "paired_elapsed_seconds": 15.21,
+    "paired_maximum_resident_set_bytes": 45912064
+  },
+  "full_development_selection_verification": {
+    "parallel_candidate_elapsed_seconds": [476.647145, 476.597288, 473.899296, 470.748536],
+    "candidates": 4,
+    "scored_records_per_candidate": 235776,
+    "trials_per_candidate": 1024,
+    "training_records_per_candidate": 3552,
+    "record_shards_per_candidate": 1024,
+    "independent_archive_verdicts": ["PASS", "PASS", "PASS", "PASS"],
+    "selector_recomputation_elapsed_seconds": 509.82,
+    "selected_candidate": "incumbent-no-refinement-v1",
+    "eligible_refinements": []
+  },
+  "conclusion": "The original whole-collection and duplicate-shard implementation cannot execute one formal batch within measured local memory/disk limits. The streaming deterministic-shard repair reduces measured quick-run peak RSS from 2731806720 to 155054080 bytes and total attempt size from about 788.5 MB to 47.3 MB while preserving the exact timing-neutral primitive digest, metrics, and coverage. One formal batch is now projected to fit locally as a single compressed record copy, but has not been executed. Its projected 38.5 GB archive still requires a repository-approved external durable destination before confirmation. The formal count includes 122880 stationary plans, 30720 factorial sensor-shift plans, and 245760 record shards after matched changed-law branches."
+}

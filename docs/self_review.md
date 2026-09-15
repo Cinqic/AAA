@@ -1,4 +1,40 @@
-# Opus self-review — not independent approval
+# Sol observation-noise v1.1 remediation self-review — not independent approval
+
+Sol's review of Luna's original PR #11 implementation was independent; this
+section reviews Sol's own repairs and is therefore a self-review, not a second
+independent approval and not human review.
+
+The final pass retraced protocol input through schedule generation, latent and
+observed histories, prediction/reveal/update ordering, sharded retention,
+streaming aggregation, uncertainty, gates, CLI status, checksum verification,
+freeze admission, remote reservation, candidate selection, and joint A+B
+evaluation. It also reread the complete diff against main and active documents.
+
+Material results:
+
+- The corrected full development search completed for all four candidates at
+  the declared 2 x 2 x 1 hierarchy. Each archive independently verified; no
+  refinement met all constraints; no confirmation data was inspected.
+- A timing-neutral digest, metrics, and coverage matched exactly across the
+  streaming implementation and deterministic sharded implementation.
+- The final adversarial pass found `AAA-146` through `AAA-149`: schedule-index
+  members could traverse outside the archive or follow a symlink, and quick
+  selection could overwrite the canonical full evidence. Fresh-wheel execution
+  also failed because installed packages have no pinned Git history.
+  Containment checks, a protected evidence destination and an explicit
+  `NOT_VERIFIED` installed-checkout boundary address those three defects. The
+  first final-head CI then proved shallow Actions checkouts omitted the pinned
+  historical commit; all CI jobs now fetch complete history.
+- Missing checksums, rehashed NaN summaries, wrong adaptation estimands,
+  incomplete cells, caller-selected formal draws, cross-clone batch reuse,
+  current-checkout reference drift, shard tampering, zero-valued legitimate
+  metrics, interruption/resume, and causal interval ordering have dedicated
+  negative tests.
+- Formal A/B was not run. There is no immutable archive locator or independent
+  retrieval proof for the projected 38.5 GB compressed record stream per
+  batch. This is `BLOCKED`, not a scientific result and not merge approval.
+
+## Historical Opus v2.1 self-review — not current approval
 
 This is a record of what was checked and what it found. It is **not** an
 approval decision and must not be read as one. GPT-5.6 Sol is the current

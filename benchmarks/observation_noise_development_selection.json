@@ -1,0 +1,62 @@
+{
+  "schema_version": "aaa.observation_noise_development_selection.v1",
+  "protocol_version": "aaa.observation_noise.v1.1",
+  "status": "selection_plan_frozen",
+  "frozen_before_comparative_development": true,
+  "candidate_ledger_file": "benchmarks/observation_noise_candidate_ledger.json",
+  "namespace": "observation_noise_development",
+  "sample": {
+    "lineages": 2,
+    "episodes_per_family_per_lineage": 2,
+    "sensor_realizations_per_episode": 1,
+    "primary_channels": ["gaussian", "uniform"],
+    "primary_scales": [0.0005, 0.002],
+    "families": ["constant_velocity", "bouncing", "changed_law", "speed_change"],
+    "conditions": ["clean_trained", "noise_trained"]
+  },
+  "candidates": [
+    "incumbent-no-refinement-v1",
+    "causal-innovation-clip-025-v1",
+    "causal-innovation-clip-050-v1",
+    "causal-innovation-clip-100-v1"
+  ],
+  "mechanism_budget": {
+    "maximum_evaluated_configurations": 12,
+    "maximum_substantive_mechanism_changes": 3,
+    "mechanism_change_policy": "All three non-incumbent entries share one mechanism family and count as one substantive mechanism change."
+  },
+  "estimands": {
+    "primary": "Mean latent next-position MAE normalized by line length, with lineage then episode then sensor-realization hierarchy.",
+    "baseline_competitiveness": "Candidate online MAE minus 1.10 times reflected constant-motion MAE.",
+    "incumbent_comparison": "Unchanged incumbent MAE minus selected-candidate MAE; only a positive adjusted lower bound above the preregistered practical margin can promote a refinement.",
+    "adaptation": "First 50 post-intervention transitions, including the first surprise, online versus complete-state frozen clone.",
+    "retention": "Selected-candidate online MAE minus matched selected-candidate frozen MAE in unchanged-law primary cells.",
+    "undefined_ratio_rule": "A zero or missing denominator is undefined and fails the relevant claim; it is never replaced with zero."
+  },
+  "ranking": {
+    "order": [
+      "primary_candidate_utility",
+      "baseline_competitiveness",
+      "unchanged_law_retention",
+      "changed_law_first50_adaptation",
+      "resource_and_numerical_stability"
+    ],
+    "weights": "No weighted composite; all listed constraints are conjunctive.",
+    "tie_break": "configuration_hash ascending after all constraints and then candidate_id ascending",
+    "practical_margin": 0.00001,
+    "confidence_level": 0.95,
+    "multiplicity": "Development ranking is descriptive and cannot consume confirmation alpha; confirmation uses one joint Holm family across A+B."
+  },
+  "baseline_policy": {
+    "settings_selected_separately": true,
+    "primary_deployable_baseline": "constant_motion_reflected",
+    "model_development_comparator": "incumbent_square_root_rls",
+    "baseline_results_cannot_select_or_reject_a_candidate_after_confirmation": true
+  },
+  "rejection_policy": {
+    "retain_every_attempt": true,
+    "allowed_outcomes": ["selected", "rejected", "inconclusive", "failed"],
+    "no_confirmation_inspection": true,
+    "selection_requires_committed_ledger_entry": true
+  }
+}

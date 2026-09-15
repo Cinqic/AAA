@@ -82,6 +82,79 @@ def build_parser() -> argparse.ArgumentParser:
     recompute_parser.add_argument("--spec", type=Path)
     recompute_parser.add_argument("--no-verify-checksums", action="store_true")
 
+    subparsers.add_parser(
+        "observation-noise-protocol-hash", help="Print the separate observation-noise protocol identity."
+    )
+    subparsers.add_parser(
+        "observation-noise-fingerprint",
+        help="Print the non-self-referential observation-noise scientific source fingerprint.",
+    )
+
+    noise_parser = subparsers.add_parser(
+        "observation-noise", help="Run the separately versioned observation-noise phase."
+    )
+    noise_parser.add_argument(
+        "--role", choices=("development", "confirmation_a", "confirmation_b"), default="development"
+    )
+    noise_parser.add_argument("--batch-id", help="Predeclared confirmation batch identity.")
+    noise_parser.add_argument("--attempt-label", help="Immutable attempt directory label.")
+    noise_parser.add_argument("--output-root", type=Path, default=Path("runs"))
+    noise_parser.add_argument("--protocol", type=Path, help="Development-only protocol path override.")
+    noise_parser.add_argument(
+        "--quick", action="store_true", help="Small development smoke plan; never valid for confirmation."
+    )
+    noise_parser.add_argument(
+        "--resume", action="store_true", help="Continue an interrupted observation-noise attempt."
+    )
+    noise_parser.add_argument(
+        "--candidate-id",
+        help="Development-only candidate ID; confirmation resolves the committed freeze instead.",
+    )
+
+    noise_recompute_parser = subparsers.add_parser(
+        "observation-noise-recompute",
+        help="Independently recompute observation-noise metrics from primitive records.",
+    )
+    noise_recompute_parser.add_argument("run_dir", type=Path)
+
+    noise_selection_parser = subparsers.add_parser(
+        "observation-noise-development-select",
+        help="Evaluate the frozen bounded observation-noise candidate catalog on development data.",
+    )
+    noise_selection_parser.add_argument(
+        "--output",
+        type=Path,
+        default=Path("runs/development-selection/observation_noise_development_smoke.json"),
+    )
+    noise_selection_parser.add_argument("--runs-root", type=Path, default=Path("runs/development-selection"))
+    noise_selection_parser.add_argument(
+        "--reuse-root", type=Path, help="Recompute and relabel already completed selection attempts."
+    )
+    noise_selection_parser.add_argument(
+        "--quick", action="store_true", help="Use the bounded one-lineage smoke plan."
+    )
+
+    noise_joint_parser = subparsers.add_parser(
+        "observation-noise-confirmation-evaluate",
+        help="Verify confirmation A and B independently and evaluate one joint primary family.",
+    )
+    noise_joint_parser.add_argument("archive_a", type=Path)
+    noise_joint_parser.add_argument("archive_b", type=Path)
+    noise_joint_parser.add_argument(
+        "--output", type=Path, default=Path("docs/evidence/observation_noise_joint_evaluation.json")
+    )
+
+    noise_freeze_parser = subparsers.add_parser(
+        "observation-noise-freeze", help="Write the observation-noise source freeze manifest."
+    )
+    noise_freeze_parser.add_argument("--batch", action="append", default=[])
+    noise_freeze_parser.add_argument("--notes", default="")
+    noise_freeze_parser.add_argument("--project-root", type=Path)
+    noise_freeze_parser.add_argument(
+        "--stage", choices=("design_freeze", "confirmation_freeze"), default="design_freeze"
+    )
+    noise_freeze_parser.add_argument("--selected-candidate")
+
     freeze_parser = subparsers.add_parser("freeze", help="Write the confirmation freeze manifest.")
     freeze_parser.add_argument(
         "--batch", action="append", default=[], help="Planned confirmation batch id (repeatable)."
@@ -148,6 +221,115 @@ def main(argv: list[str] | None = None) -> int:
         print(f"status: {spec.status}")
         print(f"hash: {spec_hash(spec)}")
         return 0
+
+    if args.command == "observation-noise-protocol-hash":
+        from .noise.spec import canonical_protocol_hash, canonical_protocol_path, load_protocol
+
+        protocol = load_protocol()
+        print(f"path: {canonical_protocol_path()}")
+        print(f"version: {protocol.protocol_version}")
+        print(f"status: {protocol.status}")
+        print(f"hash: {canonical_protocol_hash()}")
+        return 0
+
+    if args.command == "observation-noise-fingerprint":
+        from .noise.scientific_identity import scientific_fingerprint
+
+        fingerprint = scientific_fingerprint(default_project_root())
+        print(f"schema: {fingerprint['schema']}")
+        print(f"sha256: {fingerprint['sha256']}")
+        print(f"files: {len(fingerprint['files'])}")
+        return 0
+
+    if args.command == "observation-noise-recompute":
+        from .noise.verifier import verify_attempt
+
+        result = verify_attempt(args.run_dir)
+        print(f"attempt: {result['metadata_attempt_id']}")
+        print(f"recomputation: {result['verdict']}")
+        print(f"records: {result['records']}")
+        print(f"trials: {result['trials']}")
+        return 0 if result["verdict"] == "PASS" else 3
+
+    if args.command == "observation-noise-development-select":
+        from .noise.selection import run_development_selection
+
+        try:
+            selection = run_development_selection(
+                output_root=args.runs_root,
+                evidence_path=args.output,
+                quick=args.quick,
+                reuse_root=args.reuse_root,
+            )
+        except Exception as error:
+            print(f"observation-noise development selection failed: {error}", file=sys.stderr)
+            return 2
+        print(f"selected candidate: {selection['selected_candidate']}")
+        print(f"evidence: {args.output}")
+        return 0
+
+    if args.command == "observation-noise-confirmation-evaluate":
+        from .noise.joint import JointEvaluationError, evaluate_joint_archives
+
+        try:
+            result = evaluate_joint_archives(args.archive_a, args.archive_b, output_path=args.output)
+        except (JointEvaluationError, OSError, ValueError, json.JSONDecodeError) as error:
+            print(f"observation-noise joint evaluation failed: {error}", file=sys.stderr)
+            return 3
+        print(f"joint outcome: {result['outcome']}")
+        print(f"claims: {len(result['claims'])}")
+        print(f"evidence: {args.output}")
+        return 0 if result["all_required_gates_pass"] else 1
+
+    if args.command == "observation-noise-freeze":
+        from .noise.freeze import build_freeze_manifest, save_freeze_manifest
+
+        if not args.batch:
+            raise SystemExit("observation-noise-freeze requires at least one --batch")
+        if args.stage == "confirmation_freeze" and not args.selected_candidate:
+            raise SystemExit("confirmation_freeze requires --selected-candidate")
+        destination_name = (
+            "observation_noise_freeze.json"
+            if args.stage == "confirmation_freeze"
+            else "observation_noise_source_freeze.json"
+        )
+        destination = _project(args) / "benchmarks" / destination_name
+        noise_manifest = build_freeze_manifest(
+            _project(args),
+            args.batch,
+            args.notes,
+            stage=args.stage,
+            selected_candidate=args.selected_candidate,
+        )
+        save_freeze_manifest(noise_manifest, destination)
+        print(f"wrote {destination}")
+        print(f"protocol hash: {noise_manifest['protocol_hash']}")
+        return 0
+
+    if args.command == "observation-noise":
+        from .noise.runner import run_attempt
+
+        try:
+            noise_outcome = run_attempt(
+                role=args.role,
+                output_root=args.output_root,
+                attempt_label=args.attempt_label,
+                batch_id=args.batch_id,
+                quick=args.quick,
+                protocol_path=args.protocol,
+                resume=args.resume,
+                candidate_id=args.candidate_id,
+            )
+        except Exception as error:
+            print(f"observation-noise failed: {error}", file=sys.stderr)
+            return 2
+        print(f"AAA observation-noise attempt complete: {noise_outcome.directory}")
+        print(f"Summary: {noise_outcome.directory / 'summary.json'}")
+        print(f"Report: {noise_outcome.directory / 'report.md'}")
+        for gate in noise_outcome.summary["gates"]:
+            marker = " " if gate["status"] == PASS else "!"
+            print(f" {marker} {gate['status']:<22} {gate['name']}")
+        return 0 if noise_outcome.passed or args.role == "development" else 1
 
     if args.command == "batches":
         spec = load_spec()

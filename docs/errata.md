@@ -167,3 +167,16 @@ Not everything was wrong, and the repair did not assume it was.
   a real signal and not an artifact of the old statistics. Whether it survives
   the repaired protocol on fresh confirmation streams is reported in the
   confirmation evidence, not assumed here, and 55% was never used as a target.
+
+## Active v2.1 timing and episodic semantics (2026-09-13)
+
+Some historical review prose described change timing as randomized. The active
+v2.1 executable specification uses the fixed transition-300 change point; the
+current v2.1 runner does not sample a new change time per episode. Its
+always-online learner carries predictor state across the sequence of episodes,
+while the simulated world and observation history are reset for each episode.
+This correction describes the current executable behavior; historical review
+wording and archived attempt provenance remain unchanged. The separately
+versioned observation-noise phase follows the same fixed 300-transition law
+change for its matched branch and does not reinterpret a sensor shift as a
+physical-law detection.

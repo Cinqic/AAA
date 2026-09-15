@@ -90,3 +90,54 @@ round-2 pair.
 `results/final/` and `results/benchmark_v2/` are preserved unchanged. They are
 historical provenance. See [`errata.md`](errata.md) for which of their claims
 were affected and why.
+
+## Observation-noise v1.1
+
+The observation-noise phase is additive and separately addressed. Its protocol,
+source-freeze manifest, candidate ledger, registry, attempt metadata, schedule
+files, primitive records, plots, reports, and checksums live under the names
+declared in [`observation_noise_protocol.md`](observation_noise_protocol.md).
+An attempt retains deterministic per-trial `records/*.jsonl.gz` shards and a
+canonical index rather than duplicate combined compressed and uncompressed
+copies. The manifest hashes the concatenated uncompressed record bytes in
+canonical trial/step order, while every shard also has a compressed-byte hash.
+A compact summary without the full schedule and primitive archive cannot
+support an independent-reproduction claim.
+
+Noise records contain both latent truth and predictor-visible observations, but
+the predictor-generation boundary receives only the latter. The presence of a
+truth field in evaluator evidence is not permission for a predictor or
+calibration callback to read it. A report must state whether a result is
+engineering complete, scientifically supported, negative, inconclusive, or
+blocked by missing evidence.
+
+### Observation-noise completion boundary
+
+The scientific identity used for a future confirmation freeze is the output of
+`observation-noise-fingerprint`, not a commit/tree equality check. It covers
+the scientific source map, including the protocol, candidate ledger and plan,
+runner, statistics, verifier, tests, lock and relevant documentation. It
+normalizes only mutable registry lifecycle fields and fails closed on
+nonignored untracked scientific files, unsafe paths and symlinks. The exact
+confirmation freeze, design/source freeze, result archives and review handoff
+are generated provenance and are excluded so their own commit does not create a
+self-reference.
+
+The committed development selection evidence is
+[`evidence/observation_noise_development_selection.json`](evidence/observation_noise_development_selection.json),
+and the full candidate ledger retains every attempted identity and outcome.
+The selected result is the unchanged incumbent control. Four full 2 x 2 x 1
+development archives were independently verified before that decision. Their
+locator is still explicitly transient local evidence; it is not a durable
+confirmation archive.
+
+The joint command
+`python -m aaa.cli observation-noise-confirmation-evaluate <A> <B>` is the only
+supported route to a final A+B conclusion. It independently verifies both
+primitive archives, checks shared training/checkpoint and candidate identity,
+recomputes the endpoint family, records Holm order and adjusted bounds, and
+does not trust a stored summary conclusion. No durable archive mechanism is
+approved or recorded for this phase. Formal A/B therefore remains unobserved
+and the confirmation boundary is `BLOCKED` until an immutable destination is
+supplied, development upload/retrieval is proved, and the fresh v1.1 batches
+are legitimately spent.

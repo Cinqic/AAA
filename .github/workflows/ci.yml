@@ -24,6 +24,8 @@ jobs:
       MPLBACKEND: Agg
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: '3.12'
@@ -59,6 +61,16 @@ jobs:
       - name: Canonical specification identity
         run: python -m aaa.cli spec-hash
 
+      - name: Observation-noise protocol identity
+        run: python -m aaa.cli observation-noise-protocol-hash
+
+      - name: Observation-noise development smoke
+        run: |
+          python -m aaa.cli observation-noise --role development --quick \
+            --attempt-label ci-observation-noise --output-root "${RUNNER_TEMP}/aaa-noise-runs"
+          python -m aaa.cli observation-noise-recompute \
+            "${RUNNER_TEMP}/aaa-noise-runs/observation-noise-v1_1/ci-observation-noise"
+
       - name: Development benchmark smoke
         run: |
           python -m aaa.cli benchmark --role development --attempt-label ci-smoke \
@@ -81,6 +93,7 @@ jobs:
           name: ci-locked-evidence
           path: |
             ${{ runner.temp }}/aaa-runs
+            ${{ runner.temp }}/aaa-noise-runs
             coverage.xml
             lock-hash.txt
           retention-days: 14
@@ -100,6 +113,8 @@ jobs:
       MPLBACKEND: Agg
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: ${{ matrix.python-version }}
@@ -117,6 +132,8 @@ jobs:
       MPLBACKEND: Agg
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: '3.12'
@@ -139,6 +156,22 @@ jobs:
           print('packaged specification:', path)
           print('version:', load_spec().spec_version)
           "
+          aaa observation-noise-protocol-hash
           aaa benchmark --role development --attempt-label installed \
             --replicas 1 --episodes 1 --output-root "${RUNNER_TEMP}/elsewhere/runs"
           aaa recompute "${RUNNER_TEMP}/elsewhere/runs/benchmark-v2_1/installed"
+          aaa observation-noise --role development --quick \
+            --attempt-label installed-noise --output-root "${RUNNER_TEMP}/elsewhere/noise-runs"
+          aaa observation-noise-recompute \
+            "${RUNNER_TEMP}/elsewhere/noise-runs/observation-noise-v1_1/installed-noise"
+
+      - name: Retain fresh-install failure evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: ci-fresh-install-evidence
+          path: |
+            ${{ runner.temp }}/elsewhere/runs
+            ${{ runner.temp }}/elsewhere/noise-runs
+          retention-days: 14
+          if-no-files-found: warn

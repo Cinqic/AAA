@@ -1,0 +1,86 @@
+{
+  "schema_version": "aaa.observation_noise_pre_repair_probes.v1",
+  "recorded_at": "2026-09-14",
+  "reviewed_head": "64d70f1b2e4587c636dcd31994e93e45348fd130",
+  "baseline": {
+    "command": "MPLBACKEND=Agg .venv/bin/python -m unittest discover -s tests -t .",
+    "result": "429 tests passed in 78.189 seconds"
+  },
+  "probes": [
+    {
+      "finding": "AAA-135",
+      "status": "REPRODUCED",
+      "paths": [
+        "aaa/noise/verifier.py"
+      ],
+      "probe": "A valid synthetic attempt with checksums.json omitted returned verifier verdict PASS.",
+      "observed": {
+        "missing_checksums_verdict": "PASS"
+      }
+    },
+    {
+      "finding": "AAA-136",
+      "status": "REPRODUCED",
+      "paths": [
+        "aaa/noise/verifier.py"
+      ],
+      "probe": "A stored summary metric was replaced by JSON NaN while primitive records and the run-manifest record hash were unchanged.",
+      "observed": {
+        "nan_stored_metric_verdict": "PASS"
+      }
+    },
+    {
+      "finding": "AAA-137",
+      "status": "REPRODUCED",
+      "paths": [
+        "aaa/noise/joint.py",
+        "aaa/noise/data/observation_noise_v1.json"
+      ],
+      "probe": "For frozen means 1 and 3 with online means 1 and 1.5, production's mean of per-identity reduction ratios differs from the declared ratio of means.",
+      "observed": {
+        "mean_of_ratios": 0.25,
+        "declared_ratio_of_means": 0.375
+      }
+    },
+    {
+      "finding": "AAA-138",
+      "status": "REPRODUCED",
+      "paths": [
+        "aaa/noise/selection.py",
+        "aaa/noise/runner.py",
+        "benchmarks/observation_noise_development_selection.json",
+        "docs/evidence/observation_noise_development_selection.json"
+      ],
+      "probe": "The frozen plan declares 2 lineages x 2 episodes x 1 realization, while the committed evidence records quick=true and _plan_counts returns 1 x 1 x 1. Eligibility omits unchanged-law retention, incumbent practical gain, complete-cell coverage, and resource/numerical stability, and uses value-or-infinity expressions that classify zero as missing.",
+      "observed": {
+        "declared_counts": [2, 2, 1],
+        "executed_quick_counts": [1, 1, 1]
+      }
+    },
+    {
+      "finding": "AAA-139",
+      "status": "REPRODUCED",
+      "paths": [
+        "aaa/noise/joint.py"
+      ],
+      "probe": "The formal evaluator accepts a caller draw override and hard-codes observation-noise-a-0001 and observation-noise-b-0001 instead of resolving the frozen registry identities.",
+      "observed": {
+        "draw_override_parameter": true,
+        "hard_coded_batch_ids": true
+      }
+    },
+    {
+      "finding": "AAA-140",
+      "status": "REPRODUCED",
+      "paths": [
+        "aaa/noise/runner.py",
+        "benchmarks/observation_noise_registry.json"
+      ],
+      "probe": "Confirmation admission reads planned from the shared registry, but consumption is appended only to attempt-local lifecycle.jsonl; separate roots/checkouts can therefore admit the same batch.",
+      "observed": {
+        "shared_registry_mutated_before_observation": false,
+        "attempt_local_consumption_only": true
+      }
+    }
+  ]
+}

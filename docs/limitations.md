@@ -67,12 +67,37 @@ thing this version has measured.
 - The always-online family rotates through a fixed sequence of the existing
   regimes; it is not an open-ended stream (`AAA-008`).
 
-## The most useful next experiment
+## Historical next-experiment rationale
 
-Controlled observation noise. Every current result depends on perfect
-observations, which is exactly the condition under which an analytic
-extrapolator is unbeatable and a learner has little to contribute. Fix a set of
-noise levels, freeze the noise schedule and the confirmation plan before looking
-at anything, and repeat the same matched frozen-versus-updating protocol. If
-updating contributes under imperfect observation, that is a materially stronger
-result than anything this version can establish.
+Before the separate noise phase existed, controlled observation noise was the
+next experiment proposed for benchmark v2.1. That rationale remains historical:
+perfect observations make an analytic extrapolator unusually strong. The
+experiment is now implemented as `aaa.observation_noise.v1.1`, but its formal
+scientific result is not established.
+
+## Observation-noise phase status
+
+`aaa.observation_noise.v1.1` has a corrected full 2 x 2 x 1 development search
+and a smaller smoke path. Together they demonstrate schedule generation,
+causal noisy updates, matched branch construction, direct realized stratum
+identities, primitive recomputation, bounded-memory sharding, uncertainty and
+raw-data plots. They do not establish a supported operating envelope.
+Confirmation A/B, adjusted uncertainty over the fixed formal replication plan,
+durable full-archive publication and retrieval are not represented.
+
+The earlier quick refinement smoke was not a valid completion of the frozen
+2 x 2 x 1 development selection plan. The repaired full selection has now run:
+all four candidate archives independently verified, no refinement had the
+preregistered practical gain or adjusted positive evidence, and the unchanged
+incumbent was retained as the explicit no-refinement control. This does not
+establish that the incumbent meets any confirmation endpoint. The source
+fingerprint is non-self-referential and fail-closed, but a durable archive
+locator is still absent. The exact confirmation freeze may be prepared, but
+full ten-lineage A/B execution, joint Holm analysis and durable retrieval are
+therefore `NOT_VERIFIED` or `BLOCKED`, not silently treated as passing. Sol's AI
+review is recorded separately and does not claim independent human review.
+
+The noise model corrupts observations only. It does not study process noise,
+dropout, bias, irregular sampling, hidden state, actions, goals, language,
+vision, or general intelligence. A favorable detector response to a sensor
+shift is not evidence that a physical-law change was detected.

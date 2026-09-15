@@ -82,6 +82,15 @@ alongside everything else. No threshold was touched. See `AAA-120` in
   and a freeze manifest; an experiment registry with safe resume; and
   independent recomputation of every metric and gate from retained raw
   evidence.
+- Observation-noise v1.1: a separately versioned sensor model with cached
+  schedules, latent/observed field separation, causal noisy-target updates,
+  matched intervention branches, deterministic sharded evidence, and an
+  independent reference verifier. The corrected full 2 x 2 x 1 development
+  search evaluated four candidate identities and retained the unchanged
+  incumbent as an explicit no-refinement control. Formal A/B remains blocked
+  on an approved immutable archive/retrieval destination; development evidence
+  is not a confirmation result. See
+  [`benchmarks/observation_noise_candidate_ledger.json`](benchmarks/observation_noise_candidate_ledger.json).
 
 ## The learner
 
@@ -129,6 +138,15 @@ external API, no pretrained model, no paid service.
 ```bash
 python -m unittest discover -s tests -t .        # the test suite
 python -m aaa.cli spec-hash                      # canonical specification identity
+python -m aaa.cli observation-noise-protocol-hash # separate noise protocol identity
+python -m aaa.cli observation-noise-fingerprint    # scientific source identity
+python -m aaa.cli observation-noise-development-select --quick \
+    --output runs/development-selection/observation_noise_development_smoke.json
+python -m aaa.cli observation-noise --role development --quick \
+    --attempt-label noise-smoke-001 --output-root runs
+python -m aaa.cli observation-noise-recompute runs/observation-noise-v1_1/noise-smoke-001
+python -m aaa.cli observation-noise-confirmation-evaluate <A> <B> \
+    --output docs/evidence/observation_noise_joint_evaluation.json
 python -m aaa.cli benchmark --role development --attempt-label dev-001 \
     --replicas 2 --episodes 3 --output-root runs
 python -m aaa.cli recompute runs/benchmark-v2_1/dev-001
@@ -137,8 +155,12 @@ python -m aaa.cli select-candidate
 python -m aaa.cli animate --checkpoint runs/<attempt>/checkpoints/replica-00.json
 ```
 
-Formal confirmation requires a predeclared batch, a committed freeze manifest
-and a clean source tree; see [`docs/reproduction.md`](docs/reproduction.md).
+Formal confirmation requires a predeclared batch, a committed freeze manifest,
+the selected candidate ledger entry, the exact lock, and a matching
+non-self-referential scientific fingerprint; see
+[`docs/reproduction.md`](docs/reproduction.md). The confirmation evaluator
+reconstructs the complete primary A+B claim family and applies one Holm
+adjustment without trusting stored conclusions.
 
 ## Interpreting a result
 
@@ -160,6 +182,7 @@ result, and this repository is built to report that rather than to avoid it.
 | Document | What it covers |
 |---|---|
 | [Benchmark protocol](docs/benchmark_protocol.md) | the active v2.1 protocol, gates, statistics and confirmation discipline |
+| [Observation-noise protocol](docs/observation_noise_protocol.md) | the separately versioned sensor study, causal boundary, schedules, replication and limits |
 | [Issue ledger](docs/issue_ledger.md) | every defect: reproduction, root cause, repair, regression test, status |
 | [Errata](docs/errata.md) | which earlier claims were affected, and why |
 | [Candidate selection](docs/candidate_selection.md) | why this candidate, with the full table including what lost |
@@ -167,8 +190,8 @@ result, and this repository is built to report that rather than to avoid it.
 | [Reproduction](docs/reproduction.md) | exact commands from a clean checkout |
 | [Evidence policy](docs/evidence_policy.md) | what is committed, what is regenerable, and the known limitation |
 | [Experiment registry](docs/experiment_registry.md) | trial state, resume semantics, verification |
-| [Limitations](docs/limitations.md) | what this cannot show, and the next experiment |
-| [Research history](CHANGELOG.md) | v1, v2, v2.1 |
+| [Limitations](docs/limitations.md) | what this cannot show and the current confirmation blocker |
+| [Research history](CHANGELOG.md) | v1, v2, v2.1 and observation-noise v1/v1.1 |
 | [Self-review](docs/self_review.md) | what was checked after the repair, and what stayed weak |
 | [Review handoff](docs/handoff_sol.md) | identity, confirmation outcomes, reproduction commands |
 

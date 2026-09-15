@@ -52,6 +52,7 @@ include = ["aaa*"]
 # The canonical benchmark specification must travel with an installed package;
 # a repository-relative path disappears the moment AAA is installed elsewhere.
 "aaa.benchmark" = ["data/*.json"]
+"aaa.noise" = ["data/*.json"]
 
 [tool.ruff]
 line-length = 110

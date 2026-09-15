@@ -1,4 +1,61 @@
-# GPT-5.6 Sol independent review
+# GPT-5.6 Sol independent review — observation noise v1.1
+
+## Current verdict (2026-09-14)
+
+**BLOCKED FOR COMPLETION AND NORMAL MERGE.**
+
+The independent review repaired the reproducible engineering, integrity,
+selection, causality, scalability and documentation defects in PR #11. The
+scientific outcome is nevertheless **NOT ESTABLISHED**: neither fresh v1.1 A/B
+batch has been observed, no immutable external archive exists, no development
+upload/retrieval proof exists, and no joint formal endpoint family has been
+recomputed. Missing confirmation evidence is not a negative or inconclusive
+result.
+
+The exact external prerequisite is `AAA-144`: an approved immutable destination
+for two projected 38.5 GB compressed primitive streams plus schedules,
+metadata, retrieval headroom and documented retention/access. The repaired
+implementation and negative evidence may be pushed to PR #11 and exercised by
+CI, but this review does not authorize merge, tag, or release.
+
+## Findings and corrected development evidence
+
+Sol reproduced `AAA-135` through `AAA-145` before changing the corresponding
+implementation. The final self-review additionally reproduced `AAA-146`
+through `AAA-149`: archive containment, evidence preservation, installed
+checkout-boundary and hosted shallow-clone defects. The issue ledger preserves each failure,
+root cause, repair, regression and remaining boundary.
+
+The corrected full 2 x 2 x 1 development search evaluated all four frozen
+candidate identities. Each candidate archive retained 235,776 scored records,
+1,024 trials and 3,552 training records and independently verified `PASS`.
+None of the three innovation-clipping mechanisms met every preregistered
+selection condition, so `incumbent-no-refinement-v1` remains selected. This
+disposition is valid development evidence only.
+
+The bounded-memory pilot retained 58,944 scored records in 256 deterministic
+gzip shards, peaked at 155,054,080 bytes RSS, and independently verified. Its
+timing-neutral record digest, metrics and coverage exactly matched the prior
+streaming run. These measurements support implementation practicality and the
+38.5 GB compressed projection; they do not prove formal runtime, durable
+retention, or scientific endpoints.
+
+## Identity and evidence boundary
+
+The active protocol is `aaa.observation_noise.v1.1`, with protocol hash
+`546e2434cc15850779107c1a329af1e2f8581cd6a1c3b31807eecf5f6e7b427c`.
+It pins the preserved v2.1 reference commit
+`25b6c32c9040d0f934314a2139993d12763afc99`. The v1 protocol and planned 0001
+batches are retained as superseded and unobserved; the fresh v1.1 0002 batches
+remain planned and unobserved.
+
+Final local commands, the source fingerprint/freeze, PR head and CI results are
+recorded in `handoff_sol.md` and `final_audit.md` after generation. This is an
+AI review. It does not claim human independence.
+
+---
+
+# Historical GPT-5.6 Sol independent review — benchmark v2.1 (2026-09-12)
 
 ## Verdict
 

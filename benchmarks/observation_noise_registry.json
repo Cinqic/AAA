@@ -1,0 +1,56 @@
+{
+  "schema_version": "aaa.observation_noise_registry.v1",
+  "protocol_version": "aaa.observation_noise.v1.1",
+  "protocol_hash": "546e2434cc15850779107c1a329af1e2f8581cd6a1c3b31807eecf5f6e7b427c",
+  "batches": [
+    {
+      "batch_id": "observation-noise-a-0001",
+      "role": "confirmation_a",
+      "status": "superseded_unobserved",
+      "namespace": "observation_noise_confirmation_a",
+      "declared_at": "2026-09-13",
+      "notes": "Superseded without execution or observation when v1 was invalidated by the Sol pre-execution audit; retained as historical negative evidence."
+    },
+    {
+      "batch_id": "observation-noise-b-0001",
+      "role": "confirmation_b",
+      "status": "superseded_unobserved",
+      "namespace": "observation_noise_confirmation_b",
+      "declared_at": "2026-09-13",
+      "notes": "Superseded without execution or observation when v1 was invalidated by the Sol pre-execution audit; retained as historical negative evidence."
+    },
+    {
+      "batch_id": "observation-noise-a-0002",
+      "role": "confirmation_a",
+      "status": "planned",
+      "namespace": "observation_noise_confirmation_a",
+      "declared_at": "2026-09-14",
+      "notes": "Fresh A stream declared for v1.1 before execution. Shared training lineages; disjoint latent and sensor evaluation stream."
+    },
+    {
+      "batch_id": "observation-noise-b-0002",
+      "role": "confirmation_b",
+      "status": "planned",
+      "namespace": "observation_noise_confirmation_b",
+      "declared_at": "2026-09-14",
+      "notes": "Fresh B stream declared for v1.1 before either v1.1 confirmation batch is observed."
+    }
+  ],
+  "rules": {
+    "immutable_attempt_ids": true,
+    "failed_attempts_are_retained": true,
+    "no_replacement_randomness": true,
+    "a_and_b_are_not_independent_retraining": true,
+    "superseded_batches_are_never_reactivated": true
+  },
+  "superseded_protocols": [
+    {
+      "protocol_version": "aaa.observation_noise.v1",
+      "protocol_hash": "d5466983b358175ac4f33f4d7450953573721159c34fec4660bbb38b5c9f88ff",
+      "source_commit": "64d70f1b2e4587c636dcd31994e93e45348fd130",
+      "superseded_at": "2026-09-14",
+      "observed_confirmation_data": false,
+      "reason": "Pre-execution audit found a prose/operator boundary contradiction, an unpinned reference commit, and an archive format that exceeded available local storage."
+    }
+  ]
+}

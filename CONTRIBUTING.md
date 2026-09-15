@@ -83,7 +83,9 @@ usually the thing that is wrong.
 
 ## Scope
 
-Please do not add observation noise, larger models, extra dimensions or new
-research directions to this version. The current work is repairing and trusting
-the measuring instrument. [`docs/limitations.md`](docs/limitations.md) names the
-next experiment.
+Observation noise is implemented only in the separately versioned
+`aaa.observation_noise.v1.1` phase. Do not fold it into benchmark v2.1 or change
+either protocol's frozen thresholds, samples, endpoints, or historical evidence.
+Larger models, extra dimensions, process noise, missing observations and other
+research directions remain out of scope. See
+[`docs/limitations.md`](docs/limitations.md) for the current evidence boundary.
