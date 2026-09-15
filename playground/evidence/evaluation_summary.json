@@ -1,0 +1,616 @@
+{
+  "aggregate": {
+    "first_50_post_change_mae": {
+      "constant_motion": {
+        "max": 0.0002173957004673388,
+        "mean": 0.00015016099754551894,
+        "min": 4.9532647229815207e-05,
+        "seeds": 5
+      },
+      "constant_motion_reflected": {
+        "max": 0.0002173957004673388,
+        "mean": 0.00015016099754551894,
+        "min": 4.9532647229815207e-05,
+        "seeds": 5
+      },
+      "persistence": {
+        "max": 0.0011161765806599732,
+        "mean": 0.0007998163331158624,
+        "min": 0.0003484328803533576,
+        "seeds": 5
+      },
+      "rls_frozen": {
+        "max": 0.00021170830064009215,
+        "mean": 0.00014566512519829477,
+        "min": 4.626296560121146e-05,
+        "seeds": 5
+      },
+      "rls_online": {
+        "max": 5.424821892785481e-05,
+        "mean": 3.823075923635133e-05,
+        "min": 1.3232039384040162e-05,
+        "seeds": 5
+      },
+      "tiny_nn_frozen": {
+        "max": 0.0160022965715728,
+        "mean": 0.008628931017445506,
+        "min": 0.0009355830190304782,
+        "seeds": 5
+      },
+      "tiny_nn_online": {
+        "max": 0.0059271827225821925,
+        "mean": 0.002739584869041254,
+        "min": 0.0003998191930820683,
+        "seeds": 5
+      }
+    },
+    "overall_mae": {
+      "constant_motion": {
+        "max": 5.561773076002369e-05,
+        "mean": 4.2326971119526334e-05,
+        "min": 3.0208129195525896e-05,
+        "seeds": 5
+      },
+      "constant_motion_reflected": {
+        "max": 5.561773076002369e-05,
+        "mean": 4.2326971119526334e-05,
+        "min": 3.0208129195525896e-05,
+        "seeds": 5
+      },
+      "persistence": {
+        "max": 0.001002175546357478,
+        "mean": 0.0007020149888387705,
+        "min": 0.00044367541485188633,
+        "seeds": 5
+      },
+      "rls_frozen": {
+        "max": 3.62583488103045e-05,
+        "mean": 2.689823765799678e-05,
+        "min": 1.1982196953643652e-05,
+        "seeds": 5
+      },
+      "rls_online": {
+        "max": 1.2280848100721166e-05,
+        "mean": 8.255643431399962e-06,
+        "min": 4.740708560324463e-06,
+        "seeds": 5
+      },
+      "tiny_nn_frozen": {
+        "max": 0.004521180397023763,
+        "mean": 0.0024078476728185937,
+        "min": 0.00026753543421101123,
+        "seeds": 5
+      },
+      "tiny_nn_online": {
+        "max": 0.0018406647843417542,
+        "mean": 0.001033369022832997,
+        "min": 0.0001357865263734474,
+        "seeds": 5
+      }
+    },
+    "post_change_mae": {
+      "constant_motion": {
+        "max": 0.00012567085336203764,
+        "mean": 9.616421434956236e-05,
+        "min": 3.215810384605444e-05,
+        "seeds": 5
+      },
+      "constant_motion_reflected": {
+        "max": 0.00012567085336203764,
+        "mean": 9.616421434956236e-05,
+        "min": 3.215810384605444e-05,
+        "seeds": 5
+      },
+      "persistence": {
+        "max": 0.00065216321133791,
+        "mean": 0.0005054269544130703,
+        "min": 0.00022723150579574802,
+        "seeds": 5
+      },
+      "rls_frozen": {
+        "max": 0.0001227943843230772,
+        "mean": 9.32064425256397e-05,
+        "min": 3.003195266222336e-05,
+        "seeds": 5
+      },
+      "rls_online": {
+        "max": 2.714113103468252e-05,
+        "mean": 1.9195343446050342e-05,
+        "min": 6.7613163522439734e-06,
+        "seeds": 5
+      },
+      "tiny_nn_frozen": {
+        "max": 0.01384872358817646,
+        "mean": 0.007129552749862281,
+        "min": 0.000835852260159159,
+        "seeds": 5
+      },
+      "tiny_nn_online": {
+        "max": 0.003476264388767492,
+        "mean": 0.0016728725094194603,
+        "min": 0.0003128090960440305,
+        "seeds": 5
+      }
+    },
+    "pre_change_mae": {
+      "constant_motion": {
+        "max": 3.689897391435054e-05,
+        "mean": 2.4199953196955282e-05,
+        "min": 1.2594081754791567e-05,
+        "seeds": 5
+      },
+      "constant_motion_reflected": {
+        "max": 3.689897391435054e-05,
+        "mean": 2.4199953196955282e-05,
+        "min": 1.2594081754791567e-05,
+        "seeds": 5
+      },
+      "persistence": {
+        "max": 0.0011539131943983927,
+        "mean": 0.0007682062462211609,
+        "min": 0.0003978731380616519,
+        "seeds": 5
+      },
+      "rls": {
+        "max": 7.277385833394112e-06,
+        "mean": 4.572242753066501e-06,
+        "min": 6.884073838844808e-07,
+        "seeds": 5
+      },
+      "tiny_nn": {
+        "max": 0.0013805934639757186,
+        "mean": 0.0008180479835782951,
+        "min": 7.618296756180324e-05,
+        "seeds": 5
+      }
+    }
+  },
+  "claim_boundaries": {
+    "implementation_works": "Supported when the run completes with no numerical failures. It says the loop, the gradients and the serialization behave; it says nothing about learning.",
+    "model_beats_a_baseline": "Addressed descriptively against persistence, raw constant motion, reflected constant motion and the AAA RLS learner. Reflected constant motion is the like-for-like comparison because the tiny network is allowed the same public reflection map. No hypothesis test is performed and none should be inferred.",
+    "model_generalizes": "NOT addressed. No held-out family, no unfamiliar law, no distribution shift beyond the single declared coefficient change.",
+    "model_improves_over_its_frozen_copy": "This is the one claim the protocol is actually built to test, and only on this fixed toy protocol, at these seeds, on this changed-law world.",
+    "model_learns_on_some_stream": "Supported only by the pre-change MAE of the updating arm relative to its own untrained starting point. It is a statement about this stream, not about streams."
+  },
+  "configuration": {
+    "branch_steps": 100,
+    "first_post_change_window": 50,
+    "learning_rate": 0.3,
+    "model_seed_offset": 900000,
+    "prefix_steps": 300,
+    "reflect": true,
+    "speed_max": 0.2,
+    "speed_min": 0.08,
+    "unfold_target": true
+  },
+  "development_seeds": [
+    701,
+    702,
+    703
+  ],
+  "environment_seeds": [
+    711,
+    712,
+    713,
+    714,
+    715
+  ],
+  "evaluation_seeds": [
+    711,
+    712,
+    713,
+    714,
+    715
+  ],
+  "experiment": "aaa.playground.tiny_neural_experiment.v1",
+  "failures": [],
+  "head_to_head_online_vs_frozen": [
+    {
+      "available": true,
+      "difference": -0.0005357638259484099,
+      "left": "tiny_nn_online",
+      "left_lower": true,
+      "left_mae": 0.0003998191930820683,
+      "metric": "first_50_post_change_mae",
+      "ratio": 0.4273476377290293,
+      "right": "tiny_nn_frozen",
+      "right_mae": 0.0009355830190304782
+    },
+    {
+      "available": true,
+      "difference": -0.006818194387282489,
+      "left": "tiny_nn_online",
+      "left_lower": true,
+      "left_mae": 0.0012693601374768348,
+      "metric": "first_50_post_change_mae",
+      "ratio": 0.1569522818783852,
+      "right": "tiny_nn_frozen",
+      "right_mae": 0.008087554524759323
+    },
+    {
+      "available": true,
+      "difference": -0.003026142186194679,
+      "left": "tiny_nn_online",
+      "left_lower": true,
+      "left_mae": 0.0019286760465371355,
+      "metric": "first_50_post_change_mae",
+      "ratio": 0.38925263368819274,
+      "right": "tiny_nn_frozen",
+      "right_mae": 0.0049548182327318144
+    },
+    {
+      "available": true,
+      "difference": -0.00723722001655092,
+      "left": "tiny_nn_online",
+      "left_lower": true,
+      "left_mae": 0.0059271827225821925,
+      "metric": "first_50_post_change_mae",
+      "ratio": 0.4502431929526719,
+      "right": "tiny_nn_frozen",
+      "right_mae": 0.013164402739133113
+    },
+    {
+      "available": true,
+      "difference": -0.01182941032604476,
+      "left": "tiny_nn_online",
+      "left_lower": true,
+      "left_mae": 0.00417288624552804,
+      "metric": "first_50_post_change_mae",
+      "ratio": 0.2607679608276317,
+      "right": "tiny_nn_frozen",
+      "right_mae": 0.0160022965715728
+    }
+  ],
+  "interpretation": "Under this fixed toy protocol, at the declared seeds, these numbers describe next-position error for a 17-parameter neural learner that kept updating versus a bitwise-identical copy frozen at the same instant. Nothing here is evidence that AAA understands motion, learned physics, is intelligent, or generalizes.",
+  "model": {
+    "architecture": "2 inputs -> 4 tanh hidden -> 1 linear output",
+    "inputs": [
+      "(x[t] - x[t-1]) / (dt * speed_max)",
+      "(x[t] - midpoint) / interval_width"
+    ],
+    "learning_rate": 0.3,
+    "learning_rate_grid_considered": [
+      0.003,
+      0.01,
+      0.03,
+      0.1,
+      0.3,
+      1.0,
+      3.0
+    ],
+    "learning_rate_selected_on": "development seeds only",
+    "optimizer": "plain SGD on 0.5 * (prediction - target)^2",
+    "parameter_count": 17,
+    "public_boundary_policy": "Predictions are reflected into the public bounds and update targets are unfolded through the inverse of the same public map. Both are programmed public knowledge of the observation format, not learned capability.",
+    "target": "next displacement normalized by interval width"
+  },
+  "model_seeds": [
+    900711,
+    900712,
+    900713,
+    900714,
+    900715
+  ],
+  "not_a_benchmark": "This is a tiny neural AAA experiment. It is not benchmark v2.2, not a confirmation run, not validation of AAA, and not evidence of understanding or general adaptation.",
+  "per_seed": [
+    {
+      "branch_scored_steps": 100,
+      "branch_state_hash": {
+        "rls": "3b6d5193599768993a56c85beb08e589c12b610734e90727240a20c46c8d9608",
+        "tiny_nn": "47f8efcedaf7d3a02cf195062dd3f7f061509786ae7e4cc15e51bdeca74072b1"
+      },
+      "branch_updates": {
+        "rls_frozen": 0,
+        "rls_online": 100,
+        "tiny_nn_frozen": 0,
+        "tiny_nn_online": 100
+      },
+      "environment_seed": 711,
+      "failures": [],
+      "first_50_post_change_mae": {
+        "constant_motion": 0.00016792691826667872,
+        "constant_motion_reflected": 0.00016792691826667872,
+        "persistence": 0.000810607915233743,
+        "rls_frozen": 0.0001645531204911743,
+        "rls_online": 3.641614442458252e-05,
+        "tiny_nn_frozen": 0.0009355830190304782,
+        "tiny_nn_online": 0.0003998191930820683
+      },
+      "model_seed": 900711,
+      "overall_mae": {
+        "constant_motion": 4.1047418752984614e-05,
+        "constant_motion_reflected": 4.1047418752984614e-05,
+        "persistence": 0.00044367541485188633,
+        "rls_frozen": 3.365459933686612e-05,
+        "rls_online": 7.338804661138479e-06,
+        "tiny_nn_frozen": 0.00026753543421101123,
+        "tiny_nn_online": 0.0001357865263734474
+      },
+      "post_change_mae": {
+        "constant_motion": 0.00012555382963761797,
+        "constant_motion_reflected": 0.00012555382963761797,
+        "persistence": 0.0005797081769188827,
+        "rls_frozen": 0.0001227943843230772,
+        "rls_online": 1.8320679460438472e-05,
+        "tiny_nn_frozen": 0.000835852260159159,
+        "tiny_nn_online": 0.0003128090960440305
+      },
+      "post_damping": 0.0692426217990839,
+      "post_omega": 10.928903136647069,
+      "pre_change_mae": {
+        "constant_motion": 1.2594081754791567e-05,
+        "constant_motion_reflected": 1.2594081754791567e-05,
+        "persistence": 0.0003978731380616519,
+        "rls": 3.6412037186132283e-06,
+        "tiny_nn": 7.618296756180324e-05
+      },
+      "prefix_scored_steps": 297,
+      "prefix_updates": {
+        "rls": 297,
+        "tiny_nn": 297
+      },
+      "tiny_cumulative_gradient_norm": {
+        "branch_frozen": 0.0234457414309397,
+        "branch_online": 0.05621662937769983,
+        "prefix": 0.0234457414309397
+      }
+    },
+    {
+      "branch_scored_steps": 100,
+      "branch_state_hash": {
+        "rls": "c98e81c3f7e250309f49f568b3809233e7ffaab2c051209cf0b44654fb6e1d7c",
+        "tiny_nn": "38a13f59d143b7f4dcb9698fe130dac40bfe4575f1074f7ace4daa04f6fd8921"
+      },
+      "branch_updates": {
+        "rls_frozen": 0,
+        "rls_online": 100,
+        "tiny_nn_frozen": 0,
+        "tiny_nn_online": 100
+      },
+      "environment_seed": 712,
+      "failures": [],
+      "first_50_post_change_mae": {
+        "constant_motion": 4.9532647229815207e-05,
+        "constant_motion_reflected": 4.9532647229815207e-05,
+        "persistence": 0.0003484328803533576,
+        "rls_frozen": 4.626296560121146e-05,
+        "rls_online": 1.3232039384040162e-05,
+        "tiny_nn_frozen": 0.008087554524759323,
+        "tiny_nn_online": 0.0012693601374768348
+      },
+      "model_seed": 900712,
+      "overall_mae": {
+        "constant_motion": 3.0208129195525896e-05,
+        "constant_motion_reflected": 3.0208129195525896e-05,
+        "persistence": 0.0007294314644374521,
+        "rls_frozen": 1.1982196953643652e-05,
+        "rls_online": 6.120575716873026e-06,
+        "tiny_nn_frozen": 0.002790243302484946,
+        "tiny_nn_online": 0.0009838970585157745
+      },
+      "post_change_mae": {
+        "constant_motion": 3.215810384605444e-05,
+        "constant_motion_reflected": 3.215810384605444e-05,
+        "persistence": 0.00022723150579574802,
+        "rls_frozen": 3.003195266222336e-05,
+        "rls_online": 6.7613163522439734e-06,
+        "tiny_nn_frozen": 0.007996529654931216,
+        "tiny_nn_online": 0.0008253350663736093
+      },
+      "post_damping": 0.19111065211162476,
+      "post_omega": 6.156890010725639,
+      "pre_change_mae": {
+        "constant_motion": 2.9551572074135814e-05,
+        "constant_motion_reflected": 2.9551572074135814e-05,
+        "persistence": 0.0008985223596030092,
+        "rls": 5.90483812920604e-06,
+        "tiny_nn": 0.0010372849346579178
+      },
+      "prefix_scored_steps": 297,
+      "prefix_updates": {
+        "rls": 297,
+        "tiny_nn": 297
+      },
+      "tiny_cumulative_gradient_norm": {
+        "branch_frozen": 0.3281840077799283,
+        "branch_online": 0.4132578947088875,
+        "prefix": 0.3281840077799283
+      }
+    },
+    {
+      "branch_scored_steps": 100,
+      "branch_state_hash": {
+        "rls": "96d540c7897826729371ff2f3e361cfa703d7ca55795e4abc347d4838d8fd21a",
+        "tiny_nn": "00fe4d05d1c8616a5e7e4800124f7f92b5c3a8e0cb49e1ff35cf2923a1c1d166"
+      },
+      "branch_updates": {
+        "rls_frozen": 0,
+        "rls_online": 100,
+        "tiny_nn_frozen": 0,
+        "tiny_nn_online": 100
+      },
+      "environment_seed": 713,
+      "failures": [],
+      "first_50_post_change_mae": {
+        "constant_motion": 0.00013386463019501304,
+        "constant_motion_reflected": 0.00013386463019501304,
+        "persistence": 0.0008155133725977492,
+        "rls_frozen": 0.00012904704357354467,
+        "rls_online": 3.3472626495920646e-05,
+        "tiny_nn_frozen": 0.0049548182327318144,
+        "tiny_nn_online": 0.0019286760465371355
+      },
+      "model_seed": 900713,
+      "overall_mae": {
+        "constant_motion": 3.320619233204045e-05,
+        "constant_motion_reflected": 3.320619233204045e-05,
+        "persistence": 0.0005322879447799137,
+        "rls_frozen": 2.1406574483983108e-05,
+        "rls_online": 4.740708560324463e-06,
+        "tiny_nn_frozen": 0.00120240898949514,
+        "tiny_nn_online": 0.0005370678898129653
+      },
+      "post_change_mae": {
+        "constant_motion": 8.622584631042873e-05,
+        "constant_motion_reflected": 8.622584631042873e-05,
+        "persistence": 0.000516517146336849,
+        "rls_frozen": 8.293953077127602e-05,
+        "rls_online": 1.677604305435121e-05,
+        "tiny_nn_frozen": 0.0038640881948277467,
+        "tiny_nn_online": 0.0012226840290895135
+      },
+      "post_damping": 0.15829984938001623,
+      "post_omega": 8.02211177011125,
+      "pre_change_mae": {
+        "constant_motion": 1.5354456985781772e-05,
+        "constant_motion_reflected": 1.5354456985781772e-05,
+        "persistence": 0.0005375979779257267,
+        "rls": 6.884073838844808e-07,
+        "tiny_nn": 0.00030622070487136663
+      },
+      "prefix_scored_steps": 297,
+      "prefix_updates": {
+        "rls": 297,
+        "tiny_nn": 297
+      },
+      "tiny_cumulative_gradient_norm": {
+        "branch_frozen": 0.09231206578167328,
+        "branch_online": 0.21749724572143386,
+        "prefix": 0.09231206578167328
+      }
+    },
+    {
+      "branch_scored_steps": 100,
+      "branch_state_hash": {
+        "rls": "5e6a1077b804aaba5c26d1c978d5e261eb424b5d3ff43fe1b582c62bf121c345",
+        "tiny_nn": "4f96cc308959b07d0dd129efd113fccc75ed554525ee7fe87a5438fbb4629614"
+      },
+      "branch_updates": {
+        "rls_frozen": 0,
+        "rls_online": 100,
+        "tiny_nn_frozen": 0,
+        "tiny_nn_online": 100
+      },
+      "environment_seed": 714,
+      "failures": [],
+      "first_50_post_change_mae": {
+        "constant_motion": 0.0002173957004673388,
+        "constant_motion_reflected": 0.0002173957004673388,
+        "persistence": 0.0011161765806599732,
+        "rls_frozen": 0.00021170830064009215,
+        "rls_online": 5.424821892785481e-05,
+        "tiny_nn_frozen": 0.013164402739133113,
+        "tiny_nn_online": 0.0059271827225821925
+      },
+      "model_seed": 900714,
+      "overall_mae": {
+        "constant_motion": 5.1555384557057e-05,
+        "constant_motion_reflected": 5.1555384557057e-05,
+        "persistence": 0.0008025045737671216,
+        "rls_frozen": 3.62583488103045e-05,
+        "rls_online": 1.2280848100721166e-05,
+        "tiny_nn_frozen": 0.0032578702408781086,
+        "tiny_nn_online": 0.0018406647843417542
+      },
+      "post_change_mae": {
+        "constant_motion": 0.00012567085336203764,
+        "constant_motion_reflected": 0.00012567085336203764,
+        "persistence": 0.00065216321133791,
+        "rls_frozen": 0.00012233180885172834,
+        "rls_online": 2.714113103468252e-05,
+        "tiny_nn_frozen": 0.009102570051216825,
+        "tiny_nn_online": 0.003476264388767492
+      },
+      "post_damping": 0.1760275297494598,
+      "post_omega": 9.92996172230291,
+      "pre_change_mae": {
+        "constant_motion": 2.6600681255716715e-05,
+        "constant_motion_reflected": 2.6600681255716715e-05,
+        "persistence": 0.0008531245611170244,
+        "rls": 7.277385833394112e-06,
+        "tiny_nn": 0.0012899578468246696
+      },
+      "prefix_scored_steps": 297,
+      "prefix_updates": {
+        "rls": 297,
+        "tiny_nn": 297
+      },
+      "tiny_cumulative_gradient_norm": {
+        "branch_frozen": 0.4137694314008901,
+        "branch_online": 0.7914373897176402,
+        "prefix": 0.4137694314008901
+      }
+    },
+    {
+      "branch_scored_steps": 100,
+      "branch_state_hash": {
+        "rls": "123e48eea9ae6a01f304366ed61b84ebf3600411ae72daf13001b335a4b86b15",
+        "tiny_nn": "31fe1bbea16069247f3219a0d358a5883057975a349c851d74e66d1c048f4f37"
+      },
+      "branch_updates": {
+        "rls_frozen": 0,
+        "rls_online": 100,
+        "tiny_nn_frozen": 0,
+        "tiny_nn_online": 100
+      },
+      "environment_seed": 715,
+      "failures": [],
+      "first_50_post_change_mae": {
+        "constant_motion": 0.00018208509156874886,
+        "constant_motion_reflected": 0.00018208509156874886,
+        "persistence": 0.0009083509167344895,
+        "rls_frozen": 0.00017675419568545126,
+        "rls_online": 5.378476694935852e-05,
+        "tiny_nn_frozen": 0.0160022965715728,
+        "tiny_nn_online": 0.00417288624552804
+      },
+      "model_seed": 900715,
+      "overall_mae": {
+        "constant_motion": 5.561773076002369e-05,
+        "constant_motion_reflected": 5.561773076002369e-05,
+        "persistence": 0.001002175546357478,
+        "rls_frozen": 3.118946870518651e-05,
+        "rls_online": 1.0797280117942673e-05,
+        "tiny_nn_frozen": 0.004521180397023763,
+        "tiny_nn_online": 0.0016694288551210436
+      },
+      "post_change_mae": {
+        "constant_motion": 0.00011121243859167295,
+        "constant_motion_reflected": 0.00011121243859167295,
+        "persistence": 0.0005515147316759617,
+        "rls_frozen": 0.00010793453601989355,
+        "rls_online": 2.6977547328535524e-05,
+        "tiny_nn_frozen": 0.01384872358817646,
+        "tiny_nn_online": 0.0025272699668226557
+      },
+      "post_damping": 0.16118437073803216,
+      "post_omega": 9.183280884081004,
+      "pre_change_mae": {
+        "constant_motion": 3.689897391435054e-05,
+        "constant_motion_reflected": 3.689897391435054e-05,
+        "persistence": 0.0011539131943983927,
+        "rls": 5.349378700234643e-06,
+        "tiny_nn": 0.0013805934639757186
+      },
+      "prefix_scored_steps": 297,
+      "prefix_updates": {
+        "rls": 297,
+        "tiny_nn": 297
+      },
+      "tiny_cumulative_gradient_norm": {
+        "branch_frozen": 0.4402884589993975,
+        "branch_online": 0.7081536957645137,
+        "prefix": 0.4402884589993975
+      }
+    }
+  ],
+  "playground_version": "aaa.playground.exploratory.v0.1",
+  "role": "playground_evaluation",
+  "seeds_where_online_beat_its_frozen_clone": 5,
+  "source": {
+    "available": true,
+    "commit": "bd1ebc666a794844a84779c0461c33c1910fdd58",
+    "dirty": false
+  },
+  "status": "exploratory"
+}

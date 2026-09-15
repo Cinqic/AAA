@@ -1,0 +1,120 @@
+{
+  "admissible_learning_rates": [
+    0.003,
+    0.01,
+    0.03,
+    0.1,
+    0.3
+  ],
+  "attempts": [
+    {
+      "development_seeds": [
+        701,
+        702,
+        703
+      ],
+      "failures": [],
+      "learning_rate": 0.003,
+      "mean_first_window_mae": 0.02805393713852218,
+      "per_seed_first_window_mae": [
+        0.049475413697861056,
+        0.031787725756715665,
+        0.002898671960989817
+      ]
+    },
+    {
+      "development_seeds": [
+        701,
+        702,
+        703
+      ],
+      "failures": [],
+      "learning_rate": 0.01,
+      "mean_first_window_mae": 0.019806619730023726,
+      "per_seed_first_window_mae": [
+        0.03273555724812265,
+        0.02380096243537764,
+        0.002883339506570889
+      ]
+    },
+    {
+      "development_seeds": [
+        701,
+        702,
+        703
+      ],
+      "failures": [],
+      "learning_rate": 0.03,
+      "mean_first_window_mae": 0.013523918404045319,
+      "per_seed_first_window_mae": [
+        0.01940617694225977,
+        0.01841579063926513,
+        0.002749787630611057
+      ]
+    },
+    {
+      "development_seeds": [
+        701,
+        702,
+        703
+      ],
+      "failures": [],
+      "learning_rate": 0.1,
+      "mean_first_window_mae": 0.01065557885183054,
+      "per_seed_first_window_mae": [
+        0.014633431357240627,
+        0.015662669483604116,
+        0.001670635714646883
+      ]
+    },
+    {
+      "development_seeds": [
+        701,
+        702,
+        703
+      ],
+      "failures": [],
+      "learning_rate": 0.3,
+      "mean_first_window_mae": 0.007533686639249442,
+      "per_seed_first_window_mae": [
+        0.01099785186651293,
+        0.010901798648082196,
+        0.0007014094031531993
+      ]
+    },
+    {
+      "development_seeds": [
+        701,
+        702,
+        703
+      ],
+      "failures": [],
+      "learning_rate": 1.0,
+      "mean_first_window_mae": 0.004121009560977274,
+      "per_seed_first_window_mae": [
+        0.006621023408029423,
+        0.005519926772545688,
+        0.00022207850235671068
+      ]
+    },
+    {
+      "development_seeds": [
+        701,
+        702,
+        703
+      ],
+      "failures": [
+        "ValueError: prediction reflection exceeded safety iteration limit"
+      ],
+      "learning_rate": 3.0,
+      "mean_first_window_mae": null,
+      "per_seed_first_window_mae": null
+    }
+  ],
+  "criterion": "among rates with no numerical failure and at least one grid step below the smallest diverging rate, the lowest mean first-window post-change MAE of tiny_nn_online across development seeds",
+  "divergence_point": 3.0,
+  "experiment": "aaa.playground.tiny_neural_experiment.v1",
+  "note": "Evaluation seeds were not consulted at any point in this selection.",
+  "selected_learning_rate": 0.3,
+  "stage": "development_learning_rate_selection"
+}
